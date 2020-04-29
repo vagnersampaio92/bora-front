@@ -38,11 +38,9 @@ export default class Login extends Component {
                 </header>
                 <Card2>
                             
-                            <TextField id="standard-basic" onChange={ e => {this.setState({email: e.target.value})} }  label="Email" />
+                            <TextField  id="standard-basic" onChange={ e => {this.setState({email: e.target.value})} }  label="Email" />
                             <TextField id="standard-basic"  onChange={ e => {this.setState({Password: e.target.value})} }  label="Senha" style={{ marginBottom: 30 }}/>
-                            <Button variant="outlined" color="primary" style={{ marginBottom: 50 }} onClick={() => this.buscar()}>
-                    Buscar
-            </Button>
+                            <Button variant="outlined"  style={{ marginBottom: 50, borderColor:"#fa8e40"  }} onClick={() => this.buscar()}>Login admin</Button>
                 </Card2>
             </Card>
             </ Container>

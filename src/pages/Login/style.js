@@ -14,6 +14,7 @@ width: 100%;
 background: #e7e8e9;
 `;
 
+
 export const Img = styled.img`
     width: 100%;
      max-width: 250px;
@@ -46,7 +47,7 @@ export const Card = styled.div`
     justify-content: center;
     align-items: center;
     border-radius: 10px;
-    border: 1px solid #4397d0;
+    border: 1px solid #fa8e40;
     display: flex;
     flex-direction: column;
     background: white;
