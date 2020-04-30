@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import GlobalStyle from './styles/global'
 // import Main from './pages/Main/index'
 import Routes from'./routes/index'
-// import Routesempresa from'./routes/empresa'
+import Routesempresa from'./routes/empresa'
 // import Routesentrega from'./routes/entrega'
 const Title = styled.h1` 
  color: red;
@@ -19,8 +19,8 @@ const App = () => (
  <GlobalStyle /> 
   <BrowserRouter>
      <Routes />
-     {/* <Routesempresa />
-     <Routesentrega /> */}
+     <Routesempresa />
+
      </BrowserRouter>
 
 </Fragment>

@@ -6,12 +6,14 @@ const GlobalStyle = createGlobalStyle`
         padding: 0;
         box-sizing: border-box;
         font-family: 'Roboto' !important;
+      
 
     }
     body{
         background: #e7e8e9 ;
         text-rendering: optimizeLegibility !important;
         margin: 0 ;
+        height:100vh;
     }
     a{
         color:black !important;
