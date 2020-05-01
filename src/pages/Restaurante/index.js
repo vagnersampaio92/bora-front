@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button'
 import api from '../../services/api'
 import { Link, withRouter } from "react-router-dom";
 import Pratos from '../../componets/Pratos/index'
+import Pedido from '../../componets/Pedido/index'
 import { thisExpression } from '@babel/types';
 
 
@@ -19,7 +20,7 @@ export default class Login extends Component {
 
         this.state = {
 
-            componente: Pratos,
+            componente: Pedido,
 
 
         }
@@ -62,7 +63,7 @@ export default class Login extends Component {
         );
     }
 pedidos(){
-    this.setState({componente: ''})
+    this.setState({componente: Pedido})
 }
 pratos(){
     this.setState({componente: Pratos})
