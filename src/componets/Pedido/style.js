@@ -9,10 +9,12 @@ export const Form = styled.form`
 `;
 export const Buttongroup = styled.div`
  display: flex;
+ width: 100%;
   justify-content: center;
     align-items: center;
-    flex-direction: row;
     
+    max-width: 1200px;
+    flex-flow:row wrap;
 
 `;
 export const Img = styled.img`

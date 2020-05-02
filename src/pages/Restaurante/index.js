@@ -43,6 +43,7 @@ export default class Login extends Component {
                             <Buttongroup>
                                 <Button variant="outlined" style={{ marginBottom: 50, borderColor: "#fa8e40" }} onClick={() => this.pedidos()}>Pedidos</Button>
                                 <Button variant="outlined" style={{ marginBottom: 50, borderColor: "#fa8e40", marginLeft: 10 }} onClick={() => this.pratos()}>Pratos</Button>
+                                <Button variant="outlined" style={{ marginBottom: 50, borderColor: "#fa8e40", marginLeft: 10 }} onClick={() => this.sair()}>Sair</Button>
                             </Buttongroup>
                             <Buttongroup>
                                 <this.state.componente />
@@ -67,6 +68,11 @@ pedidos(){
 }
 pratos(){
     this.setState({componente: Pratos})
+}
+sair(){
+    sessionStorage.clear();
+
+    this.props.history.push("/loginrestaurante");
 }
 
 }
