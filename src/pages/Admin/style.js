@@ -8,12 +8,20 @@ export const Container = styled.div`
 display:flex;
 flex-direction: column;
 align-items: center;
-padding-top: 70px;
+height: 100% !important;
 width: 100%;
 
 background: #e7e8e9;
 `;
 
+export const Buttongroup = styled.div`
+ display: flex;
+  justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    
+
+`;
 
 export const Img = styled.img`
     width: 100%;
@@ -23,12 +31,10 @@ export const Img = styled.img`
 `;
 
 export const Card2 = styled.div`
-  width: 50%;
-    margin-right:10px;
-    margin-bottom: 10px;
-    max-width: 1250px;
+  width: 100%;
    
-    height: auto;
+   
+    height: 100%;
     justify-content: center;
     
     display: flex;
@@ -41,7 +47,7 @@ export const Card = styled.div`
   width: 100%;
     
     margin-bottom: 10px;
-    max-width: 1250px;
+    max-width: 1920px;
     background: white;
     height: auto;
     justify-content: center;
@@ -52,16 +58,11 @@ export const Card = styled.div`
     flex-direction: column;
     background: white;
     header{
-        padding:30px;
+        padding:40px;
         display: flex;
         flex-direction: column;
         align-items: center;
       
     }
-    p{
-        padding:15px;
-    }
-    h3{
-        padding:25px;
-    }
+   
 `;
