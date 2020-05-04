@@ -41,7 +41,7 @@ export default class Login extends Component {
                         </header>
                         <Card2>
                         <Buttongroup>
-                                <Button variant="outlined" style={{ marginBottom: 50, borderColor: "#fa8e40" }} onClick={() => this.pedidos()}>Cadastro</Button>
+                                <Button variant="outlined" style={{ marginBottom: 50, borderColor: "#fa8e40" }}onClick={() => {this.setState({componente:Cadastro})}}>Cadastro</Button>
                                 <Button variant="outlined" style={{ marginBottom: 50, borderColor: "#fa8e40", marginLeft: 10 }} onClick={() => {this.setState({componente:Faturas})}}>Faturas</Button>
                                 <Button variant="outlined" style={{ marginBottom: 50, borderColor: "#fa8e40", marginLeft: 10 }} onClick={() => this.sair()}>Sair</Button>
                             </Buttongroup>

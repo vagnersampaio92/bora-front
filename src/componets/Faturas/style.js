@@ -45,6 +45,30 @@ export const Container = styled.div`
  flex-flow:row wrap;
  border: 1px solid #fa8e40;
  margin-top: 10px;
+
+ table.striped tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+td, th {
+    padding: 15px 5px;
+    display: table-cell;
+    text-align: left;
+    vertical-align: middle;
+    
+}
+.tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+
+
+
 `;
 
 
