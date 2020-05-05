@@ -159,6 +159,11 @@ export default class Historico extends Component {
         let subtotal = 0
         let preco
         let pagar
+        this.setState({
+
+            res: {},
+
+        })
         try {
             //entrega
             const response = await api.post('listapagamentospendentes', data)
@@ -184,7 +189,7 @@ export default class Historico extends Component {
                 subtotal = subtotal + preco
             }
             for (let x = 0; x < this.state.restaurante.length; x++) {
-                if (data.id = this.state.restaurante[x].id) {
+                if (data.id == this.state.restaurante[x].id) {
                     pagar = ((subtotal * this.state.restaurante[x].porcentagem) / 100).toFixed(2);
                     this.setState({
                         rest: this.state.restaurante[x]
