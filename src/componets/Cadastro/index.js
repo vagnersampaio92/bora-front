@@ -31,6 +31,8 @@ export default class Historico extends Component {
             banner: '',
             logo: '',
             user_id: '',
+            teste1:[1,2,3],
+            teste2:[1,2,3]
 
         };
     }
@@ -137,6 +139,8 @@ export default class Historico extends Component {
 
 
                                         <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, borderColor: "#fa8e40" }} onClick={() => { this.salvar2() }} style={{ marginTop: 15, }}>Cadastrar</Button>
+
+                                      
                                     </div>
 
                                 </Form>
@@ -160,6 +164,7 @@ export default class Historico extends Component {
         );
 
     }
+   
     async salvar() {
 
         const data = {}

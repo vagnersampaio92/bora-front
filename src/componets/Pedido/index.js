@@ -8,6 +8,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField'
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
+import Som from '../../componets/Som/index'
+import Stop from '../../componets/Som/off'
+import Sound from 'react-sound';
+
+
 
 
 export default class Historico extends Component {
@@ -15,11 +20,14 @@ export default class Historico extends Component {
         super(props)
         this.state = {
             pedidos: [],
+            componente: Stop,
             aguardando: [],
+            aguardandobk: [],
             aceito: [],
             preparando: [],
             acaminho: [],
             finalizado: [],
+            equals: '',
             min: '',
             max: '',
             status: '',
@@ -29,6 +37,7 @@ export default class Historico extends Component {
     }
 
     async componentWillMount() {
+
         const id = sessionStorage.getItem('restauranteid')
 
         try {
@@ -42,23 +51,51 @@ export default class Historico extends Component {
             this.setState({
 
                 aguardando: aguardandob.data,
+                aguardandobk: aguardandob.data,
                 aceito: aceitob.data,
                 preparando: preparandob.data,
                 acaminho: acaminhab.data,
                 finalizado: finalizadob.data,
             })
-            console.log(this.state.pedidos)
+
 
         } catch (err) {
 
 
         }
+        console.log(this.state.pedidos)
+        var CronJob = require('cron').CronJob;
+        var job = new CronJob(
+            '*/15 * * * * *',
+            () => {
+                this.comparar()
+            }
+
+            ,
+            null,
+            true,
+            'America/Los_Angeles'
+        );
+        var job2 = new CronJob(
+            '*/17 * * * * *',
+            () => {
+                this.comparar2()
+            }
+
+            ,
+            null,
+            true,
+            'America/Los_Angeles'
+        );
+
+
     }
     render() {
 
 
         return (
             <div>
+
                 <Container>
                     <Buttongroup >
                         <h1>Pedidos</h1>
@@ -78,6 +115,7 @@ export default class Historico extends Component {
                         {this.state.opcao == 1 &&
 
                             <Card>
+                                <this.state.componente />
                                 {this.state.aguardando.map(pedido => (
                                     <Card>
                                         {pedido.pratoped.map(pra => (
@@ -358,7 +396,61 @@ export default class Historico extends Component {
         );
 
     }
+    comparar() {
+        this.testa()
+        const equals1 = this.state.aguardando.length === this.state.aguardandobk.length && this.state.aguardando.every((e, i) => e.id === this.state.aguardandobk[i].id);
+        if (equals1 == false) {
+            this.setState(
+                {
+                    componente: Som,
+                    aguardandobk: this.state.aguardando
+                }
 
+            )
+        }
+
+
+
+        console.log("foiii")
+    }
+    comparar2() {
+
+        this.setState(
+            {
+                componente: Stop
+            }
+
+        )
+
+
+
+
+        console.log("opa")
+    }
+    async  testa() {
+        const id2 = sessionStorage.getItem('restauranteid')
+
+        try {
+            //entrega
+
+            const aguardandob = await api.get('listapedidosaguardando/' + id2)
+
+
+            this.setState({
+
+                aguardando: aguardandob.data,
+
+
+
+            })
+            console.log(this.state.pedidos)
+
+        } catch (err) {
+
+        }
+
+
+    }
     async aguardando() {
         this.setState({ opcao: 1 })
 
@@ -378,17 +470,33 @@ export default class Historico extends Component {
     }
 
     async  salva(id, pedido) {
-
+        const id2 = sessionStorage.getItem('restauranteid')
 
         try {
             //entrega
             const response = await api.post('atualiza', pedido)
             alert("salvo")
-            this.componentWillMount()
+            const aguardandob = await api.get('listapedidosaguardando/' + id2)
+            const aceitob = await api.get('listapedidosaceito/' + id2)
+            const preparandob = await api.get('listapedidospreparando/' + id2)
+            const acaminhab = await api.get('listapedidosacaminho/' + id2)
+            const finalizadob = await api.get('listapedidosFinalizado/' + id2)
+
+            this.setState({
+
+                aguardando: aguardandob.data,
+                aguardandobk: aguardandob.data,
+                aceito: aceitob.data,
+                preparando: preparandob.data,
+                acaminho: acaminhab.data,
+                finalizado: finalizadob.data,
+            })
+            console.log(this.state.pedidos)
 
         } catch (err) {
 
         }
+
 
     }
 
