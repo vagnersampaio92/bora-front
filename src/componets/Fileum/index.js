@@ -6,21 +6,11 @@ import { Container, FileInfo, Preview } from "./styles";
 
 const FileList = ({ files, onDelete }) => (
   <Container>
-    {files.map(uploadedFile => (
-      <li key={uploadedFile.id}>
+  
+      <li key={files.id}>
         <FileInfo>
-          <Preview src={uploadedFile.preview} />
-          <div>
-            <strong>{uploadedFile.name}</strong>
-            <span>
-              {uploadedFile.readableSize}{" "}
-              {!!uploadedFile.url && (
-                <button onClick={() => onDelete(uploadedFile.id)}>
-                  Excluir
-                </button>
-              )}
-            </span>
-          </div>
+          <Preview src={files.preview} />
+         
         </FileInfo>
 
         <div>
@@ -36,9 +26,9 @@ const FileList = ({ files, onDelete }) => (
               />
             )} */}
 
-          {uploadedFile.url && (
+          {files.url && (
             <a
-              href={uploadedFile.url}
+              href={files.url}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -46,11 +36,11 @@ const FileList = ({ files, onDelete }) => (
             </a>
           )}
 
-          {uploadedFile.uploaded && <MdCheckCircle size={24} color="#78e5d5" />}
-          {uploadedFile.error && <MdError size={24} color="#e57878" />}
+          {files.uploaded && <MdCheckCircle size={24} color="#78e5d5" />}
+          {files.error && <MdError size={24} color="#e57878" />}
         </div>
       </li>
-    ))}
+   
   </Container>
 );
 
