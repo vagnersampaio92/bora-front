@@ -35,6 +35,7 @@ export default class Historico extends Component {
 
         };
     }
+    
 
     async componentWillMount() {
 
@@ -97,6 +98,7 @@ export default class Historico extends Component {
             <div>
 
                 <Container>
+                <this.state.componente />
                     <Buttongroup >
                         <h1>Pedidos</h1>
                     </Buttongroup>
@@ -115,7 +117,7 @@ export default class Historico extends Component {
                         {this.state.opcao == 1 &&
 
                             <Card>
-                                <this.state.componente />
+                               
                                 {this.state.aguardando.map(pedido => (
                                     <Card>
                                         {pedido.pratoped.map(pra => (
