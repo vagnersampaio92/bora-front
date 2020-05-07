@@ -198,7 +198,7 @@ export default class Historico extends Component {
             }
 
             this.setState({
-                total: subtotal,
+                total: subtotal.toFixed(2),
                 pagar: pagar
             })
             console.log(this.state.Pedidos)

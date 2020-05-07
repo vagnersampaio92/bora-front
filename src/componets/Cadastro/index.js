@@ -3,6 +3,7 @@ import { Container, Card, Form, Buttongroup, Img } from "./style"
 import Button from '@material-ui/core/Button'
 import api from '../../services/api'
 import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField'
@@ -19,7 +20,7 @@ export default class Historico extends Component {
         super(props)
         this.state = {
             uploadedFiles: [],
-            fotos:[],
+            fotos: [],
             restaurante: '',
             name: '',
             email: '',
@@ -35,6 +36,11 @@ export default class Historico extends Component {
             phone: '',
             address: '',
             logo: '',
+
+            offer: 0,
+            popular: 0,
+            free_delivery: 0,
+            establishment_id: '',
 
             banner: '',
             logo: '',
@@ -107,7 +113,7 @@ export default class Historico extends Component {
             .then(response => {
                 this.setState(
                     {
-                        fotos:this.state.fotos.concat(response.data)
+                        fotos: this.state.fotos.concat(response.data)
                     }
                 )
                 this.updateFile(uploadedFile.id, {
@@ -197,12 +203,44 @@ export default class Historico extends Component {
                                         <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ phone: e.target.value }) }} value={this.state.phone} label="Telefone" />
                                         <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ address: e.target.value }) }} value={this.state.address} label="Endereço" />
                                         {/* <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ logo: e.target.value }) }} value={this.state.logo} label="Logo" /> */}
-                                       <h4>Logo</h4>
+                                        <FormControl>
+                                            <InputLabel id="demo-simple-select-label">Promoção</InputLabel>
+                                            <Select onChange={e => { this.setState({ offer: e.target.value }) }} style={{ marginRight: 10, minWidth: 130, marginLeft: 10 }}>
+
+                                                <MenuItem value="1">Sim</MenuItem>
+                                                <MenuItem value="0">Não</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                        <FormControl>
+                                            <InputLabel id="demo-simple-select-label">Popular</InputLabel>
+                                            <Select onChange={e => { this.setState({ popular: e.target.value }) }} style={{ marginRight: 10, minWidth: 130, marginLeft: 10 }}>
+
+                                                <MenuItem value="1">Sim</MenuItem>
+                                                <MenuItem value="0">Não</MenuItem>
+
+                                            </Select>
+
+                                        </FormControl>
+                                        <FormControl>
+
+                                            <InputLabel id="demo-simple-select-label">Frete grátis</InputLabel>
+                                            <Select onChange={e => { this.setState({ free_delivery: e.target.value }) }} style={{ marginRight: 10, minWidth: 130, marginLeft: 10 }}>
+
+                                                <MenuItem value="1">Sim</MenuItem>
+                                                <MenuItem value="0">Não</MenuItem>
+
+                                            </Select>
+                                        </FormControl>
+
+
+
+
+                                        <h4>Logo</h4>
                                         <Upload onUpload={this.handleUpload} />
                                         {!!uploadedFiles[0] && (
                                             <Fileum files={uploadedFiles[0]} onDelete={this.handleDelete} />
                                         )}
-                                         <h4>Banner</h4>
+                                        <h4>Banner</h4>
                                         <Upload onUpload={this.handleUpload} />
                                         {!!uploadedFiles[1] && (
                                             <Fileum files={uploadedFiles[1]} onDelete={this.handleDelete} />
@@ -227,8 +265,8 @@ export default class Historico extends Component {
                                         <h1>Cadastre o anúncio</h1>
                                         <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ name: e.target.value }) }} value={this.state.name} label="Nome" />
                                         <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ description: e.target.value }) }} value={this.state.description} label="Descrição" />
-                               
-                                        <h4 style={{marginBottom:10, marginTop:15 }} >Imagem do banner</h4>
+
+                                        <h4 style={{ marginBottom: 10, marginTop: 15 }} >Imagem do banner</h4>
                                         <Upload onUpload={this.handleUpload} />
                                         {!!uploadedFiles.length && (
                                             <FileList files={uploadedFiles} onDelete={this.handleDelete} />
@@ -294,7 +332,7 @@ export default class Historico extends Component {
         data.address = this.state.address
         data.delivery_option = "delivery"
         // data.logo = this.state.logo
-        data.logo= this.state.fotos[0]
+        data.logo = this.state.fotos[0]
         data.rating = "5"
 
 
@@ -303,6 +341,16 @@ export default class Historico extends Component {
             //entrega
             const response = await api.post('signup', data)
             alert(" Cadastro feito")
+            const data2={}
+
+            data2.offer=this.state.offer
+            data2.popular=this.state.popular
+            data2.free_delivery=this.state.free_delivery
+            data2.establishment_id=response.data.id
+            console.log(data2)
+            // /storeflag
+            const response2 = await api.post('storeflag', data2)
+
 
         } catch (err) {
 
@@ -324,7 +372,7 @@ export default class Historico extends Component {
                 data.logo = this.state.restaurante[x].logo
             }
         }
-       
+
         try {
             //entrega
             const response = await api.post('/establishment/boosts', data)
