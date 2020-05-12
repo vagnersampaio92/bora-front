@@ -32,6 +32,11 @@ export const Container = styled.div`
     flex-flow:row wrap;
   
     margin-top: 10px;
+    h4{
+      margin-bottom: 10px;
+      margin-top: 10px;
+
+    }
  `;
 
 export const Card = styled.div`

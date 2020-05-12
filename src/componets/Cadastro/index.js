@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Container, Card, Form, Buttongroup, Img } from "./style"
 import Button from '@material-ui/core/Button'
+import Input from '@material-ui/core/Input';
 import api from '../../services/api'
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -9,19 +10,30 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField'
 import Upload from '../Upload/index'
 import FileList from "../FileList/index";
+import Checkbox from '@material-ui/core/Checkbox';
+import ListItemText from '@material-ui/core/ListItemText';
 import Fileum from "../Fileum/index";
+import Chip from '@material-ui/core/Chip';
+
 
 import { uniqueId } from "lodash";
 import filesize from "filesize";
+import { blue } from '@material-ui/core/colors';
+
 
 
 export default class Historico extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            value: [],
+            pagamentos: [],
+            pagamentosid: [],
+            cartoes:[],
+            cad:'',
             uploadedFiles: [],
             fotos: [],
-            restaurante: '',
+            restaurante: [],
             name: '',
             email: '',
             password: '',
@@ -36,6 +48,7 @@ export default class Historico extends Component {
             phone: '',
             address: '',
             logo: '',
+            opcao: 1,
 
             offer: 0,
             popular: 0,
@@ -49,11 +62,14 @@ export default class Historico extends Component {
             teste2: [1, 2, 3]
 
         };
+        this.handleSelectChange = this.handleSelectChange.bind(this);
     }
     async componentDidMount() {
         const response = await api.get("posts");
+        const card = await api.get("cartao");
 
         this.setState({
+          
             uploadedFiles: response.data.map(file => ({
                 id: file._id,
                 name: file.name,
@@ -138,15 +154,16 @@ export default class Historico extends Component {
     };
 
     async componentWillMount() {
+        
         this.state.uploadedFiles.forEach(file => URL.revokeObjectURL(file.preview));
         try {
             //entrega
             const response = await api.get('listarestaurantes')
-
+            const card = await api.get("cartao");
 
             console.log(response)
             this.setState({
-
+                cartoes:card.data,
                 restaurante: response.data,
 
 
@@ -160,15 +177,20 @@ export default class Historico extends Component {
         const data = {}
 
 
-        this.setState({
+        // this.setState({
 
-            opcao: 1
+        //     opcao: 1
 
-        })
+        // })
 
         console.log(this.state.entrega)
 
     }
+    handleSelectChange(value) {
+        console.log('You have selected: ', value);
+        this.setState({ value });
+    }
+
     render() {
         const { uploadedFiles } = this.state;
 
@@ -231,8 +253,29 @@ export default class Historico extends Component {
 
                                             </Select>
                                         </FormControl>
+                                        <div>
+                                            <div><h4>Adicione as formas de pagamento do estabelecimento:</h4></div>
+                                            <div style={{display:"flex", color: "#0000FF"}}>  {this.state.pagamentos.map(menssagem => (
+                                                    <p tyle={{color: blue}}>{menssagem.name},&nbsp;</p> 
+                                                ))
+                                                }</div>
+                                        <div>
+                                    <FormControl>
+                                            <Select onChange={e => { this.setState({ cad: e.target.value }) }} style={{ marginRight: 10, minWidth: 130, marginLeft: 10 }}>
 
+                                        
 
+                                                {this.state.cartoes.map(menssagem => (
+                                                    <MenuItem value={menssagem.id}> {menssagem.name}</MenuItem>
+                                                ))
+                                                }
+
+                                            </Select>
+                                        </FormControl>
+                                        <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, borderColor: "#fa8e40" }} onClick={() => { this.addcard() }} style={{ marginTop: 15, }}>Adicionar</Button>
+                                    </div>
+                                        </div>
+                                   
 
 
                                         <h4>Logo</h4>
@@ -250,6 +293,17 @@ export default class Historico extends Component {
 
                                 </Form>
                             </div>
+
+
+                            {/* <div>
+
+                            {this.state.restaurante.map(menssagem => (
+                                            <p> {menssagem.name}</p>  
+                             ))
+                             }
+                            </div> */}
+
+
                         </Card>
 
 
@@ -310,6 +364,35 @@ export default class Historico extends Component {
         );
 
     }
+   async addcard(){
+        // pagamentos: [],
+        //     pagamentosid: [],
+        for(let x=0; x<this.state.cartoes.length;x++){
+            if(this.state.cartoes[x].id==this.state.cad){
+                let a ={}
+                let b = {}
+                a.id=this.state.cad
+                 b.name=this.state.cartoes[x].name
+               
+               
+                      
+                this.setState({
+                    
+                     pagamentosid:this.state.pagamentosid.concat(a),
+                     pagamentos:this.state.pagamentos.concat(b)
+    
+    
+                })
+               
+                   
+              
+             
+            }
+        }
+     
+       
+       
+    }
 
     async salvar() {
 
@@ -341,15 +424,19 @@ export default class Historico extends Component {
             //entrega
             const response = await api.post('signup', data)
             alert(" Cadastro feito")
-            const data2={}
+            const data2 = {}
 
-            data2.offer=this.state.offer
-            data2.popular=this.state.popular
-            data2.free_delivery=this.state.free_delivery
+            data2.offer = this.state.offer
+            data2.popular = this.state.popular
+            data2.free_delivery = this.state.free_delivery
             data2.establishment_id=response.data.id
             console.log(data2)
             // /storeflag
             const response2 = await api.post('storeflag', data2)
+            const data3={}
+            data3.id=response.data.id
+            data3.pagamentos=this.state.pagamentosid
+              const response3 = await api.post('storecartao', data3)
 
 
         } catch (err) {
