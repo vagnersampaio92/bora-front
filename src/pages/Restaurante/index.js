@@ -1,5 +1,11 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+
+import InputLabel from '@material-ui/core/InputLabel';
+import Input from '@material-ui/core/Input';
 
 import { Container, Img, Card, Card2, Buttongroup } from './style.js';
 import logo from '../../assets/logo.png'
@@ -19,7 +25,7 @@ export default class Login extends Component {
         super();
 
         this.state = {
-
+            status:'',
             componente: Pedido,
 
 
@@ -39,8 +45,21 @@ export default class Login extends Component {
                         <header>
                             <Img src={logo} />
                         </header>
-                        <Card2>
+                        <Card2><Buttongroup>
+                        <FormControl style={{ marginRight: 10, minWidth: 130, marginBottom: 50}}>
+                                            <InputLabel htmlFor="grouped-select">Status</InputLabel>
+                                            <Select onChange={e => { this.setState({status: e.target.value}) }} input={<Input id="grouped-select" />}>
+                                                <MenuItem value="close"> Fechado</MenuItem>
+                                                <MenuItem value="open">Aberto</MenuItem>
+                                            
+
+                                            </Select>
+                                        </FormControl>
+                                        <Button variant="outlined" style={{ marginBottom: 50, borderColor: "#fa8e40" }} onClick={() => this.setstatus()}>Salvar</Button>
+                        </Buttongroup>
+                            
                             <Buttongroup>
+                         
                                 <Button variant="outlined" style={{ marginBottom: 50, borderColor: "#fa8e40" }} onClick={() => this.pedidos()}>Pedidos</Button>
                                 <Button variant="outlined" style={{ marginBottom: 50, borderColor: "#fa8e40", marginLeft: 10 }} onClick={() => this.pratos()}>Pratos</Button>
                                 <Button variant="outlined" style={{ marginBottom: 50, borderColor: "#fa8e40", marginLeft: 10 }} onClick={() => this.sair()}>Sair</Button>
@@ -62,6 +81,27 @@ export default class Login extends Component {
 
 
         );
+    }
+   async setstatus(){
+    const id = sessionStorage.getItem('restauranteid')
+    const status= this.state.status
+    let dados={}
+    dados.id=id
+    dados.stat=status
+console.log(dados)
+    try {
+        //entrega
+
+        const aguardandob = await api.post('statusres', dados)
+
+        
+
+    } catch (err) {
+
+    }
+
+
+
     }
 pedidos(){
     this.setState({componente: Pedido})
