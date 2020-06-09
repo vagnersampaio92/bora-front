@@ -26,11 +26,16 @@ export default class Historico extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            categorias: [],
+            cadcategorias: [],
+            cadcategoriasid: [],
             value: [],
+            salvacategoria: '',
             pagamentos: [],
             pagamentosid: [],
-            cartoes:[],
-            cad:'',
+            cartoes: [],
+            cad: '',
+            cate: '',
             uploadedFiles: [],
             fotos: [],
             restaurante: [],
@@ -69,7 +74,7 @@ export default class Historico extends Component {
         const card = await api.get("cartao");
 
         this.setState({
-          
+
             uploadedFiles: response.data.map(file => ({
                 id: file._id,
                 name: file.name,
@@ -154,16 +159,18 @@ export default class Historico extends Component {
     };
 
     async componentWillMount() {
-        
+
         this.state.uploadedFiles.forEach(file => URL.revokeObjectURL(file.preview));
         try {
             //entrega
             const response = await api.get('listarestaurantes')
             const card = await api.get("cartao");
+            const cat = await api.get("categoria");
 
             console.log(response)
             this.setState({
-                cartoes:card.data,
+                categorias: cat.data,
+                cartoes: card.data,
                 restaurante: response.data,
 
 
@@ -199,7 +206,8 @@ export default class Historico extends Component {
 
                 <Buttongroup >
                     <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.setState({ opcao: 1 }) }}>Restaurantes</Button>
-                    <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, borderColor: "#fa8e40" }} onClick={() => { this.setState({ opcao: 2 }) }}>Anúncios</Button>
+                    <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.setState({ opcao: 2 }) }}>Anúncios</Button>
+                    <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.setState({ opcao: 3 }) }}>Categoria</Button>
 
                 </Buttongroup>
 
@@ -225,7 +233,7 @@ export default class Historico extends Component {
                                         <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ phone: e.target.value }) }} value={this.state.phone} label="Telefone" />
                                         <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ address: e.target.value }) }} value={this.state.address} label="Endereço" />
                                         {/* <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ logo: e.target.value }) }} value={this.state.logo} label="Logo" /> */}
-                                        <FormControl>
+                                        {/* <FormControl>
                                             <InputLabel id="demo-simple-select-label">Promoção</InputLabel>
                                             <Select onChange={e => { this.setState({ offer: e.target.value }) }} style={{ marginRight: 10, minWidth: 130, marginLeft: 10 }}>
 
@@ -252,30 +260,57 @@ export default class Historico extends Component {
                                                 <MenuItem value="0">Não</MenuItem>
 
                                             </Select>
-                                        </FormControl>
+                                        </FormControl> */}
                                         <div>
-                                            <div><h4>Adicione as formas de pagamento do estabelecimento:</h4></div>
-                                            <div style={{display:"flex", color: "#0000FF"}}>  {this.state.pagamentos.map(menssagem => (
-                                                    <p tyle={{color: blue}}>{menssagem.name},&nbsp;</p> 
-                                                ))
-                                                }</div>
-                                        <div>
-                                    <FormControl>
-                                            <Select onChange={e => { this.setState({ cad: e.target.value }) }} style={{ marginRight: 10, minWidth: 130, marginLeft: 10 }}>
-
-                                        
-
-                                                {this.state.cartoes.map(menssagem => (
-                                                    <MenuItem value={menssagem.id}> {menssagem.name}</MenuItem>
+                                            <div><h4>Adicione as categorias:</h4></div>
+                                            <div style={{ display: "flex", color: "#0000FF" }}>
+                                                {this.state.cadcategorias.map(menssagem => (
+                                                    <p tyle={{ color: blue }}>{menssagem.name},&nbsp;</p>
                                                 ))
                                                 }
+                                            </div>
+                                            <FormControl>
+                                                <Select onChange={e => { this.setState({ cate: e.target.value }) }} style={{ marginRight: 10, minWidth: 130, marginLeft: 10 }}>
 
-                                            </Select>
-                                        </FormControl>
-                                        <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, borderColor: "#fa8e40" }} onClick={() => { this.addcard() }} style={{ marginTop: 15, }}>Adicionar</Button>
-                                    </div>
+
+
+                                                    {this.state.categorias.map(menssagem => (
+                                                        <MenuItem value={menssagem.id}> {menssagem.name}</MenuItem>
+                                                    ))
+                                                    }
+
+                                                </Select>
+                                            </FormControl>
+                                            <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, borderColor: "#fa8e40" }} onClick={() => { this.addcate() }} style={{ marginTop: 15, }}>Adicionar</Button>
+
                                         </div>
-                                   
+                                        <div>
+                                            <div><h4>Adicione as formas de pagamento do estabelecimento:</h4></div>
+                                            <div style={{ display: "flex", color: "#0000FF" }}>  {this.state.pagamentos.map(menssagem => (
+                                                <p tyle={{ color: blue }}>{menssagem.name},&nbsp;</p>
+                                            ))
+                                            }
+                                            </div>
+
+                                            <div>
+
+
+                                                <FormControl>
+                                                    <Select onChange={e => { this.setState({ cad: e.target.value }) }} style={{ marginRight: 10, minWidth: 130, marginLeft: 10 }}>
+
+
+
+                                                        {this.state.cartoes.map(menssagem => (
+                                                            <MenuItem value={menssagem.id}> {menssagem.name}</MenuItem>
+                                                        ))
+                                                        }
+
+                                                    </Select>
+                                                </FormControl>
+                                                <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, borderColor: "#fa8e40" }} onClick={() => { this.addcard() }} style={{ marginTop: 15, }}>Adicionar</Button>
+                                            </div>
+                                        </div>
+
 
 
                                         <h4>Logo</h4>
@@ -347,7 +382,14 @@ export default class Historico extends Component {
                             </div>
                         </Card>
                     }
+                    {this.state.opcao == 3 &&
 
+                        <Card style={{ marginTop: 20, paddingBottom: 40, borderColor: "#fa8e40" }} >
+                            <h2>Cadastre uma categoria</h2>
+                            <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ salvacategoria: e.target.value }) }} value={this.state.salvacategoria} label="Nome" />
+                            <Button variant="outlined" style={{ marginTop: 20, marginBottom: 40, borderColor: "#fa8e40" }} onClick={() => { this.salvarcategoria() }} style={{ marginTop: 15, }}>Cadastrar</Button>
+                        </Card>
+                    }
 
                 </Container>
 
@@ -364,34 +406,78 @@ export default class Historico extends Component {
         );
 
     }
-   async addcard(){
+    async salvarcategoria() {
+        let data = {}
+        data.name = this.state.salvacategoria
+        try {
+            //entrega
+            const response = await api.post('/categoria', data)
+            alert(" Cadastro feito")
+
+        } catch (err) {
+
+        }
+
+    }
+    async addcate() {
+        // cadcategorias: [],
+        //     cadcategoriasid: [],
+        for (let x = 0; x < this.state.categorias.length; x++) {
+            if (this.state.categorias[x].id == this.state.cate) {
+                let a = {}
+                let b = {}
+                a.id = this.state.cate
+                b.name = this.state.categorias[x].name
+
+
+
+                this.setState({
+
+                    cadcategoriasid: this.state.cadcategoriasid.concat(a),
+                    cadcategorias: this.state.cadcategorias.concat(b)
+
+
+                })
+
+
+
+
+
+            }
+            console.log(this.state.cadcategorias)
+        }
+
+
+
+    }
+    async addcard() {
         // pagamentos: [],
         //     pagamentosid: [],
-        for(let x=0; x<this.state.cartoes.length;x++){
-            if(this.state.cartoes[x].id==this.state.cad){
-                let a ={}
+        for (let x = 0; x < this.state.cartoes.length; x++) {
+            if (this.state.cartoes[x].id == this.state.cad) {
+                let a = {}
                 let b = {}
-                a.id=this.state.cad
-                 b.name=this.state.cartoes[x].name
-               
-               
-                      
+                a.id = this.state.cad
+                b.name = this.state.cartoes[x].name
+
+
+
                 this.setState({
-                    
-                     pagamentosid:this.state.pagamentosid.concat(a),
-                     pagamentos:this.state.pagamentos.concat(b)
-    
-    
+
+                    pagamentosid: this.state.pagamentosid.concat(a),
+                    pagamentos: this.state.pagamentos.concat(b)
+
+
                 })
-               
-                   
-              
-             
+
+
+
+
             }
         }
-     
-       
-       
+
+
+
     }
 
     async salvar() {
@@ -429,15 +515,19 @@ export default class Historico extends Component {
             data2.offer = this.state.offer
             data2.popular = this.state.popular
             data2.free_delivery = this.state.free_delivery
-            data2.establishment_id=response.data.id
+            data2.establishment_id = response.data.id
             console.log(data2)
             // /storeflag
             const response2 = await api.post('storeflag', data2)
-            const data3={}
-            data3.id=response.data.id
-            data3.pagamentos=this.state.pagamentosid
-              const response3 = await api.post('storecartao', data3)
-
+            const data3 = {}
+            data3.id = response.data.id
+            data3.pagamentos = this.state.pagamentosid
+            const response3 = await api.post('storecartao', data3)
+           
+            const data4 = {}
+            data4.user = response.data.id
+            data4.categorias = this.state.cadcategoriasid
+            const response4 = await api.post('storeassoc', data4)
 
         } catch (err) {
 
