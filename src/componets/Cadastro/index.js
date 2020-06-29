@@ -508,7 +508,8 @@ export default class Historico extends Component {
         console.log(data)
         try {
             //entrega
-            const response = await api.post('signup', data)
+            if(this.state.cadcategoriasid.length > 0){
+                const response = await api.post('signup', data)
             alert(" Cadastro feito")
             const data2 = {}
 
@@ -528,6 +529,9 @@ export default class Historico extends Component {
             data4.user = response.data.id
             data4.categorias = this.state.cadcategoriasid
             const response4 = await api.post('storeassoc', data4)
+            }else{
+                alert("Selecione uma ou mais categorias")
+            }
 
         } catch (err) {
 
