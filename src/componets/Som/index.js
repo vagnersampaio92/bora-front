@@ -6,7 +6,7 @@ export default class Som extends Component{
           <Sound
             url="https://m.toqueparacelular.com.br/download/Alarme_Nuclear.mp3"
             playStatus={Sound.status.PLAYING}
-            playFromPosition={300 /* in milliseconds */}
+            playFromPosition={100 /* in milliseconds */}
             onLoading={this.handleSongLoading}
             onPlaying={this.handleSongPlaying}
             onFinishedPlaying={this.handleSongFinishedPlaying}

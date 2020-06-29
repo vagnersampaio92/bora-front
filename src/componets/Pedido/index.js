@@ -67,7 +67,7 @@ export default class Historico extends Component {
         console.log(this.state.pedidos)
         var CronJob = require('cron').CronJob;
         var job = new CronJob(
-            '*/15 * * * * *',
+            '*/10 * * * * *',
             () => {
                 this.comparar()
             }
@@ -78,7 +78,7 @@ export default class Historico extends Component {
             'America/Los_Angeles'
         );
         var job2 = new CronJob(
-            '*/17 * * * * *',
+            '*/12 * * * * *',
             () => {
                 this.comparar2()
             }

@@ -174,7 +174,7 @@ export default class Historico extends Component {
                         <Card>
 
                             {this.state.pratos.map(prato => (
-                                <Card>
+                                <Card style={{ marginBottom: 30, borderColor: "transparent" }}>
 
 
                                     <Img src={prato.photo_url} ></Img>
@@ -184,7 +184,7 @@ export default class Historico extends Component {
                                         <p>Preço:R${prato.price / 100}</p>
 
 
-
+                                        <Button variant="outlined" style={{ marginTop: 20, marginBottom: 25, borderColor: "#fa8e40" }} onClick={() => { this.delete(prato.id) }} style={{ marginTop: 15, }}>Apagar</Button>
                                     </div>
 
 
@@ -224,6 +224,21 @@ export default class Historico extends Component {
             //entrega
             const response = await api.post('pratos', data)
             alert(" Cadastro feito")
+            this.listar()
+
+        } catch (err) {
+
+        }
+    }
+    async delete(id) {
+
+        const data = {}
+        data.id=id
+
+        try {
+            //entrega
+            const response = await api.post('deletaprato', data)
+            alert("prato excluido")
 
         } catch (err) {
 
