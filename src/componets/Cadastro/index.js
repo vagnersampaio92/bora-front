@@ -13,6 +13,8 @@ import FileList from "../FileList/index";
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import Fileum from "../Fileum/index";
+import Icon from '@material-ui/core/Icon';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Chip from '@material-ui/core/Chip';
 
 
@@ -54,6 +56,10 @@ export default class Historico extends Component {
             address: '',
             logo: '',
             opcao: 1,
+            subres:1,
+            subanu:1,
+            subcat:1,
+            listacategoria:[],
 
             offer: 0,
             popular: 0,
@@ -65,6 +71,7 @@ export default class Historico extends Component {
             user_id: '',
             teste1: [1, 2, 3],
             teste2: [1, 2, 3]
+           
 
         };
         this.handleSelectChange = this.handleSelectChange.bind(this);
@@ -72,6 +79,7 @@ export default class Historico extends Component {
     async componentDidMount() {
         const response = await api.get("posts");
         const card = await api.get("cartao");
+        
 
         this.setState({
 
@@ -159,6 +167,16 @@ export default class Historico extends Component {
     };
 
     async componentWillMount() {
+        const lcat = await api.get("categoria")
+       
+        
+        if(lcat.data.length>0){
+           
+            this.setState({
+                listacategoria: lcat.data
+            })
+           
+        }
 
         this.state.uploadedFiles.forEach(file => URL.revokeObjectURL(file.preview));
         try {
@@ -205,9 +223,9 @@ export default class Historico extends Component {
             <div>
 
                 <Buttongroup >
-                    <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.setState({ opcao: 1 }) }}>Restaurantes</Button>
-                    <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.setState({ opcao: 2 }) }}>Anúncios</Button>
-                    <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.setState({ opcao: 3 }) }}>Categoria</Button>
+                    <Button variant="outlined" style={{  marginBottom: 10, marginRight: 10, borderColor: "#fa8e40" }} onClick={() => { this.setState({ opcao: 1 }) }}>Restaurante</Button>
+                    <Button variant="outlined" style={{  marginBottom: 10, marginRight: 10, borderColor: "#fa8e40" }} onClick={() => { this.setState({ opcao: 2 }) }}>Anúncio</Button>
+                    <Button variant="outlined" style={{  marginBottom: 10,  borderColor: "#fa8e40" }} onClick={() => { this.setState({ opcao: 3 }) }}>Categoria</Button>
 
                 </Buttongroup>
 
@@ -384,11 +402,47 @@ export default class Historico extends Component {
                     }
                     {this.state.opcao == 3 &&
 
-                        <Card style={{ marginTop: 20, paddingBottom: 40, borderColor: "#fa8e40" }} >
-                            <h2>Cadastre uma categoria</h2>
+                        <div>   <Buttongroup >
+                        <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.setState({ subcat: 1 }) }}>Cadastrar</Button>
+                        <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={async() => { this.setState({ subcat: 2 }); const lcat = await api.get("categoria");
+       
+        
+       if(lcat.data.length>0){
+          
+           this.setState({
+               listacategoria: lcat.data
+           });
+          
+       };}}>Listar</Button>
+                      
+                    </Buttongroup>
+                            {this.state.subcat==1&&
+                            <div>
+                                 <Card style={{ marginTop: 20, paddingBottom: 40, borderColor: "#fa8e40" }} >
+                             <h4>Cadastre uma categoria</h4>
                             <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ salvacategoria: e.target.value }) }} value={this.state.salvacategoria} label="Nome" />
-                            <Button variant="outlined" style={{ marginTop: 20, marginBottom: 40, borderColor: "#fa8e40" }} onClick={() => { this.salvarcategoria() }} style={{ marginTop: 15, }}>Cadastrar</Button>
-                        </Card>
+                             <Button variant="outlined" style={{ marginTop: 20, marginBottom: 40, borderColor: "#fa8e40" }} onClick={() => { this.salvarcategoria() }} style={{ marginTop: 15, }}>Cadastrar</Button>
+                         </Card>
+                            </div>
+                            }
+                            {this.state.subcat==2&&
+                            <div>
+                                {this.state.listacategoria.map(cat=>(
+                                        <div style={{ paddingTop:10, paddingBottom:10, borderColor: "#fa8e40", borderTopStyle:"solid",borderTopWidth:1 }}>
+                                             <p> <DeleteIcon style={{ marginRight: 15, fontSize:20 }} onClick={() => { this.delete(cat.id) }} />{cat.name}</p>
+                                        </div>
+
+                                        
+                                       
+                                    ))
+                                }
+                                
+                            </div>
+                            }
+                        </div>
+
+
+                        
                     }
 
                 </Container>
@@ -405,6 +459,31 @@ export default class Historico extends Component {
 
         );
 
+    }
+    
+    async delete(id) {
+
+        const data = {}
+        data.id=id
+
+        try {
+            //entrega
+            const response = await api.post('deletacategoria', data)
+            alert("prato excluido")
+            const lcat = await api.get("categoria")
+       
+        
+        if(lcat.data.length>0){
+           
+            this.setState({
+                listacategoria: lcat.data
+            })
+           
+        }
+
+        } catch (err) {
+
+        }
     }
     async salvarcategoria() {
         let data = {}
