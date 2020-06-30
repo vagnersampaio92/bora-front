@@ -21,6 +21,7 @@ export default class Login extends Component {
             email: '',
             Password: ' ',
             componente: Cadastro,
+            flag:0
 
         }
         this.baseState = this.state
@@ -41,8 +42,21 @@ export default class Login extends Component {
                         </header>
                         <Card2>
                         <Buttongroup>
-                                <Button variant="outlined" style={{ marginBottom: 50, borderColor: "#fa8e40" }}onClick={() => {this.setState({componente:Cadastro})}}>Cadastro</Button>
-                                <Button variant="outlined" style={{ marginBottom: 50, borderColor: "#fa8e40", marginLeft: 10 }} onClick={() => {this.setState({componente:Faturas})}}>Faturas</Button>
+                            {this.state.flag ==0&&
+                            <Button variant="outlined" style={{ marginBottom: 50, borderColor: "#fa8e40", background:'#fa8e40' }} color="#fa8e40"onClick={() => {this.setState({componente:Cadastro, flag:0})}}>Cadastro</Button>
+                            }
+                            {this.state.flag !=0&&
+                            <Button variant="outlined" style={{ marginBottom: 50, borderColor: "#fa8e40" }}onClick={() => {this.setState({componente:Cadastro, flag:0})}}>Cadastro</Button>
+                            }
+                            {this.state.flag ==1&&
+                                   <Button variant="outlined" style={{ marginBottom: 50, borderColor: "#fa8e40", background:'#fa8e40', marginLeft: 10 }} onClick={() => {this.setState({componente:Faturas, flag:1})}}>Faturas</Button>
+                                }
+                            {this.state.flag !=1&&
+                                    <Button variant="outlined" style={{ marginBottom: 50, borderColor: "#fa8e40", marginLeft: 10 }} onClick={() => {this.setState({componente:Faturas, flag:1})}}>Faturas</Button>
+                                }
+                          
+                           
+                               
                                 <Button variant="outlined" style={{ marginBottom: 50, borderColor: "#fa8e40", marginLeft: 10 }} onClick={() => this.sair()}>Sair</Button>
                             </Buttongroup>
                             <Buttongroup>
