@@ -28,6 +28,7 @@ export default class Historico extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            listarestaurante:[],
             categorias: [],
             cadcategorias: [],
             cadcategoriasid: [],
@@ -182,6 +183,17 @@ export default class Historico extends Component {
             })
 
         }
+        const lcat2 = await api.get("listarestaurantes");
+
+
+                                if (lcat.data.length > 0) {
+
+                                    this.setState({
+                                        listarestaurante: lcat2.data
+                                    });
+                                    console.log(this.state.listarestaurante)
+
+                                };
 
         this.state.uploadedFiles.forEach(file => URL.revokeObjectURL(file.preview));
         try {
@@ -259,133 +271,170 @@ export default class Historico extends Component {
 
                 <Container>
                     {this.state.opcao == 1 &&
+                    <div style={{ width:"100%", textAlign: "center" }}>
+                         <Buttongroup >
+                            {this.state.flagsubres==0&&
+                            <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40", background:"#fa8e40" }} onClick={() => { this.setState({ subres: 1,flagsubres:0 }) }}>Cadastrar</Button>
+                            }
+                            {this.state.flagsubres!=0&&
+                            <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.setState({ subres: 1,flagsubres:0 }) }}>Cadastrar</Button>
+                            }
+                            {this.state.flagsubres==1&&
+                             <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40", background:"#fa8e40" }} onClick={async () => {
+                                this.setState({ subres: 2,flagsubres:1 }); const lcat = await api.get("listarestaurantes");
 
-                        <Card>
+
+                                if (lcat.data.length > 0) {
+                                    console.log(lcat.data)
+                                    this.setState({
+                                        listarestaurante: lcat.data
+                                    });
+
+                                };
+                            }}>Listar</Button>
+
+                            }
+                            {this.state.flagsubres!=1&&
+                             <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={async () => {
+                                this.setState({ subres: 2,flagsubres:1 }); const lcat = await api.get("listarestaurantes");
+
+
+                                if (lcat.data.length > 0) {
+
+                                    this.setState({
+                                        listarestaurante: lcat.data
+                                    });
+
+                                };
+                            }}>Listar</Button>
+
+                            }
+
+                                
+                               
+                            </Buttongroup>
+                            {this.state.subres==1&&
+                              <Card style={{ width:"100%", textAlign: "center" }}>
+                              
+                                  <Form noValidate autoComplete="off">
+                                      <div style={{ marginTop: 20, marginBottom: 30, borderColor: "#fa8e40" }}>
+                                          <h1>Cadastre o estabelecimento</h1>
+                                          <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ name: e.target.value }) }} value={this.state.name} label="Nome" />
+                                          <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ email: e.target.value }) }} value={this.state.email} label="Email" />
+                                          <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ password: e.target.value }) }} value={this.state.password} label="Senha" />
+                                          <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ description: e.target.value }) }} value={this.state.description} label="Descrição" />
+                                          <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ porcentagem: e.target.value }) }} value={this.state.porcentagem} label="Taxa" />
+                                          <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ min_order_price: e.target.value }) }} value={this.state.min_order_price} label="Menor valor do delivery" />
+                                          <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ delivery_price: e.target.value }) }} value={this.state.delivery_price} label="Valor do delivery" />
+                                          <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ min_delivery_minutes: e.target.value }) }} value={this.state.min_delivery_minutes} label="Menor tempo" />
+                                          <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ max_delivery_minutes: e.target.value }) }} value={this.state.max_delivery_minutes} label="Tempo máximo" />
+                                          {/* <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ banner: e.target.value }) }} value={this.state.banner} label="Banner" /> */}
+                                          <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ phone: e.target.value }) }} value={this.state.phone} label="Telefone" />
+                                          <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ address: e.target.value }) }} value={this.state.address} label="Endereço" />
+                                          {/* <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ logo: e.target.value }) }} value={this.state.logo} label="Logo" /> */}
+                                      
+                                          <div>
+                                              <div><h4>Adicione as categorias:</h4></div>
+                                              <div style={{ display: "flex", color: "#0000FF" }}>
+                                                  {this.state.cadcategorias.map(menssagem => (
+                                                      <p tyle={{ color: blue }}>{menssagem.name},&nbsp;</p>
+                                                  ))
+                                                  }
+                                              </div>
+                                              <FormControl>
+                                                  <Select onChange={e => { this.setState({ cate: e.target.value }) }} style={{ marginRight: 10, minWidth: 130, marginLeft: 10 }}>
+  
+  
+  
+                                                      {this.state.categorias.map(menssagem => (
+                                                          <MenuItem value={menssagem.id}> {menssagem.name}</MenuItem>
+                                                      ))
+                                                      }
+  
+                                                  </Select>
+                                              </FormControl>
+                                              <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, borderColor: "#fa8e40" }} onClick={() => { this.addcate() }} style={{ marginTop: 15, }}>Adicionar</Button>
+  
+                                          </div>
+                                          <div>
+                                              <div><h4>Adicione as formas de pagamento do estabelecimento:</h4></div>
+                                              <div style={{ display: "flex", color: "#0000FF" }}>  {this.state.pagamentos.map(menssagem => (
+                                                  <p tyle={{ color: blue }}>{menssagem.name},&nbsp;</p>
+                                              ))
+                                              }
+                                              </div>
+  
+                                              <div>
+  
+  
+                                                  <FormControl>
+                                                      <Select onChange={e => { this.setState({ cad: e.target.value }) }} style={{ marginRight: 10, minWidth: 130, marginLeft: 10 }}>
+  
+  
+  
+                                                          {this.state.cartoes.map(menssagem => (
+                                                              <MenuItem value={menssagem.id}> {menssagem.name}</MenuItem>
+                                                          ))
+                                                          }
+  
+                                                      </Select>
+                                                  </FormControl>
+                                                  <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, borderColor: "#fa8e40" }} onClick={() => { this.addcard() }} style={{ marginTop: 15, }}>Adicionar</Button>
+                                              </div>
+                                          </div>
+  
+  
+  
+                                          <h4>Logo</h4>
+                                          <Upload onUpload={this.handleUpload} />
+                                          {!!uploadedFiles[0] && (
+                                              <Fileum files={uploadedFiles[0]} onDelete={this.handleDelete} />
+                                          )}
+                                          <h4>Banner</h4>
+                                          <Upload onUpload={this.handleUpload} />
+                                          {!!uploadedFiles[1] && (
+                                              <Fileum files={uploadedFiles[1]} onDelete={this.handleDelete} />
+                                          )}
+                                          <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, borderColor: "#fa8e40" }} onClick={() => { this.salvar() }} style={{ marginTop: 15, }}>Cadastrar</Button>
+                                      </div>
+  
+                                  </Form>
+                            
+  
+  
+                              {/* <div>
+  
+                              {this.state.restaurante.map(menssagem => (
+                                              <p> {menssagem.name}</p>  
+                               ))
+                               }
+                              </div> */}
+  
+  
+                          </Card>
+  
+                            }
+                            {this.state.subres==2&&
                             <div>
-                                <Form noValidate autoComplete="off">
-                                    <div style={{ marginTop: 20, marginBottom: 30, borderColor: "#fa8e40" }}>
-                                        <h1>Cadastre o estabelecimento</h1>
-                                        <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ name: e.target.value }) }} value={this.state.name} label="Nome" />
-                                        <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ email: e.target.value }) }} value={this.state.email} label="Email" />
-                                        <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ password: e.target.value }) }} value={this.state.password} label="Senha" />
-                                        <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ description: e.target.value }) }} value={this.state.description} label="Descrição" />
-                                        <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ porcentagem: e.target.value }) }} value={this.state.porcentagem} label="Taxa" />
-                                        <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ min_order_price: e.target.value }) }} value={this.state.min_order_price} label="Menor valor do delivery" />
-                                        <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ delivery_price: e.target.value }) }} value={this.state.delivery_price} label="Valor do delivery" />
-                                        <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ min_delivery_minutes: e.target.value }) }} value={this.state.min_delivery_minutes} label="Menor tempo" />
-                                        <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ max_delivery_minutes: e.target.value }) }} value={this.state.max_delivery_minutes} label="Tempo máximo" />
-                                        {/* <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ banner: e.target.value }) }} value={this.state.banner} label="Banner" /> */}
-                                        <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ phone: e.target.value }) }} value={this.state.phone} label="Telefone" />
-                                        <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ address: e.target.value }) }} value={this.state.address} label="Endereço" />
-                                        {/* <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ logo: e.target.value }) }} value={this.state.logo} label="Logo" /> */}
-                                        {/* <FormControl>
-                                            <InputLabel id="demo-simple-select-label">Promoção</InputLabel>
-                                            <Select onChange={e => { this.setState({ offer: e.target.value }) }} style={{ marginRight: 10, minWidth: 130, marginLeft: 10 }}>
-
-                                                <MenuItem value="1">Sim</MenuItem>
-                                                <MenuItem value="0">Não</MenuItem>
-                                            </Select>
-                                        </FormControl>
-                                        <FormControl>
-                                            <InputLabel id="demo-simple-select-label">Popular</InputLabel>
-                                            <Select onChange={e => { this.setState({ popular: e.target.value }) }} style={{ marginRight: 10, minWidth: 130, marginLeft: 10 }}>
-
-                                                <MenuItem value="1">Sim</MenuItem>
-                                                <MenuItem value="0">Não</MenuItem>
-
-                                            </Select>
-
-                                        </FormControl>
-                                        <FormControl>
-
-                                            <InputLabel id="demo-simple-select-label">Frete grátis</InputLabel>
-                                            <Select onChange={e => { this.setState({ free_delivery: e.target.value }) }} style={{ marginRight: 10, minWidth: 130, marginLeft: 10 }}>
-
-                                                <MenuItem value="1">Sim</MenuItem>
-                                                <MenuItem value="0">Não</MenuItem>
-
-                                            </Select>
-                                        </FormControl> */}
-                                        <div>
-                                            <div><h4>Adicione as categorias:</h4></div>
-                                            <div style={{ display: "flex", color: "#0000FF" }}>
-                                                {this.state.cadcategorias.map(menssagem => (
-                                                    <p tyle={{ color: blue }}>{menssagem.name},&nbsp;</p>
-                                                ))
-                                                }
-                                            </div>
-                                            <FormControl>
-                                                <Select onChange={e => { this.setState({ cate: e.target.value }) }} style={{ marginRight: 10, minWidth: 130, marginLeft: 10 }}>
+                              
+                                {this.state.listarestaurante.map(cat => (
+                                 <div style={{ paddingTop: 10, paddingBottom: 10, borderColor: "#fa8e40", borderTopStyle: "solid", borderTopWidth: 1, textAlign:"left" }}>
+                                    
+                                     <p><DeleteIcon style={{ marginRight: 15, fontSize: 20 }} onClick={() => { this.deleterestaurante(cat.id) }} /> {cat.name}</p>
+                                  
+                                        
+                                 </div>
 
 
 
-                                                    {this.state.categorias.map(menssagem => (
-                                                        <MenuItem value={menssagem.id}> {menssagem.name}</MenuItem>
-                                                    ))
-                                                    }
-
-                                                </Select>
-                                            </FormControl>
-                                            <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, borderColor: "#fa8e40" }} onClick={() => { this.addcate() }} style={{ marginTop: 15, }}>Adicionar</Button>
-
-                                        </div>
-                                        <div>
-                                            <div><h4>Adicione as formas de pagamento do estabelecimento:</h4></div>
-                                            <div style={{ display: "flex", color: "#0000FF" }}>  {this.state.pagamentos.map(menssagem => (
-                                                <p tyle={{ color: blue }}>{menssagem.name},&nbsp;</p>
-                                            ))
-                                            }
-                                            </div>
-
-                                            <div>
-
-
-                                                <FormControl>
-                                                    <Select onChange={e => { this.setState({ cad: e.target.value }) }} style={{ marginRight: 10, minWidth: 130, marginLeft: 10 }}>
-
-
-
-                                                        {this.state.cartoes.map(menssagem => (
-                                                            <MenuItem value={menssagem.id}> {menssagem.name}</MenuItem>
-                                                        ))
-                                                        }
-
-                                                    </Select>
-                                                </FormControl>
-                                                <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, borderColor: "#fa8e40" }} onClick={() => { this.addcard() }} style={{ marginTop: 15, }}>Adicionar</Button>
-                                            </div>
-                                        </div>
-
-
-
-                                        <h4>Logo</h4>
-                                        <Upload onUpload={this.handleUpload} />
-                                        {!!uploadedFiles[0] && (
-                                            <Fileum files={uploadedFiles[0]} onDelete={this.handleDelete} />
-                                        )}
-                                        <h4>Banner</h4>
-                                        <Upload onUpload={this.handleUpload} />
-                                        {!!uploadedFiles[1] && (
-                                            <Fileum files={uploadedFiles[1]} onDelete={this.handleDelete} />
-                                        )}
-                                        <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, borderColor: "#fa8e40" }} onClick={() => { this.salvar() }} style={{ marginTop: 15, }}>Cadastrar</Button>
-                                    </div>
-
-                                </Form>
-                            </div>
-
-
-                            {/* <div>
-
-                            {this.state.restaurante.map(menssagem => (
-                                            <p> {menssagem.name}</p>  
                              ))
                              }
-                            </div> */}
+                            </div>
+                            }
 
+                    </div>
 
-                        </Card>
-
+                      
 
                     }
 
@@ -582,6 +631,29 @@ export default class Historico extends Component {
         );
 
     }
+    async deleterestaurante(id){
+        const data = {}
+        data.id = id
+
+        try {
+            //entrega
+            const response = await api.post('deletares', data)
+            alert("Restaurante excluido")
+            const lcat = await api.get("listarestaurantes")
+
+
+            if (lcat.data.length > 0) {
+
+                this.setState({
+                    listarestaurante: lcat.data
+                })
+
+            }
+
+        } catch (err) {
+
+        }
+    }
     async deleteanuncio(id) {
 
         const data = {}
@@ -590,7 +662,7 @@ export default class Historico extends Component {
         try {
             //entrega
             const response = await api.post('deletaboost', data)
-            alert("prato excluido")
+            alert("Anúncio excluido")
             const lcat = await api.get("establishment/boosts")
 
 
@@ -615,7 +687,7 @@ export default class Historico extends Component {
         try {
             //entrega
             const response = await api.post('deletacategoria', data)
-            alert("prato excluido")
+            alert("Categoria excluido")
             const lcat = await api.get("categoria")
 
 
