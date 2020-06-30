@@ -27,6 +27,7 @@ export default class Login extends Component {
         this.state = {
             status:'',
             componente: Pedido,
+            flag:0
 
 
         }
@@ -59,9 +60,21 @@ export default class Login extends Component {
                         </Buttongroup>
                             
                             <Buttongroup>
+                                {this.state.flag==0&&
+                                <Button variant="outlined" style={{ marginBottom: 50, borderColor: "#fa8e40", background:"#fa8e40" }} onClick={() => {this.pedidos(); this.setState({flag:0})}}>Pedidos</Button>
+                                }
+                                {this.state.flag!=0&&
+                                <Button variant="outlined" style={{ marginBottom: 50, borderColor: "#fa8e40" }} onClick={() => {this.pedidos(); this.setState({flag:0})}}>Pedidos</Button>
+                                }
+                                {this.state.flag==1&&
+                                <Button variant="outlined" style={{ marginBottom: 50, borderColor: "#fa8e40", background:"#fa8e40", marginLeft: 10 }} onClick={() => {this.pratos(); this.setState({flag:1})}}>Pratos</Button>
+                                }
+                                {this.state.flag!=1&&
+                                <Button variant="outlined" style={{ marginBottom: 50, borderColor: "#fa8e40", marginLeft: 10 }} onClick={() => {this.pratos(); this.setState({flag:1})}}>Pratos</Button>
+                                }
                          
-                                <Button variant="outlined" style={{ marginBottom: 50, borderColor: "#fa8e40" }} onClick={() => this.pedidos()}>Pedidos</Button>
-                                <Button variant="outlined" style={{ marginBottom: 50, borderColor: "#fa8e40", marginLeft: 10 }} onClick={() => this.pratos()}>Pratos</Button>
+                                
+                                
                                 <Button variant="outlined" style={{ marginBottom: 50, borderColor: "#fa8e40", marginLeft: 10 }} onClick={() => this.sair()}>Sair</Button>
                             </Buttongroup>
                             <Buttongroup>

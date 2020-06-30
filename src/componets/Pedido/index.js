@@ -29,6 +29,7 @@ export default class Historico extends Component {
             finalizado: [],
             equals: '',
             min: '',
+            flag:0,
             max: '',
             status: '',
             opcao: ''
@@ -104,11 +105,43 @@ export default class Historico extends Component {
                     </Buttongroup>
 
                     <Buttongroup >
-                        <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.aguardando() }}> Aguardando </Button>
-                        <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.aceito() }}>Aceito </Button>
-                        <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.preparando() }}> Preparando </Button>
-                        <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.acaminho() }}>A caminho </Button>
-                        <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.finalizado() }}> Finalizado </Button>
+                        {this.state.flag==0&&
+                        <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40", background:"#fa8e40" }} onClick={() => { this.aguardando(); this.setState({flag:0}) }}> Aguardando </Button>
+                        }
+                         {this.state.flag!=0&&
+                         <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.aguardando(); this.setState({flag:0}) }}> Aguardando </Button>
+                        }
+                        {this.state.flag==1&&
+                        <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40", background:"#fa8e40" }} onClick={() => { this.aceito(); this.setState({flag:1}) }}>Aceito </Button>
+                        }
+                         {this.state.flag!=1&&
+                         <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.aceito(); this.setState({flag:1}) }}>Aceito </Button>
+                        }
+                         {this.state.flag==2&&
+                         <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40", background:"#fa8e40" }} onClick={() => { this.preparando(); this.setState({flag:2}) }}> Preparando </Button>
+                        }
+                         {this.state.flag!=2&&
+                         <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.preparando(); this.setState({flag:2}) }}> Preparando </Button>
+                        }
+                         {this.state.flag==3&&
+                         <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40", background:"#fa8e40" }} onClick={() => { this.acaminho(); this.setState({flag:3}) }}>A caminho </Button>
+                        }
+                         {this.state.flag!=3&&
+                         <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.acaminho(); this.setState({flag:3}) }}>A caminho </Button>
+                        }
+                         {this.state.flag==4&&
+                         <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40", background:"#fa8e40" }} onClick={() => { this.finalizado(); this.setState({flag:4}) }}> Finalizado </Button>
+                        }
+                         {this.state.flag!=4&&
+                         <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.finalizado(); this.setState({flag:4}) }}> Finalizado </Button>
+                        }
+
+
+                        
+                        
+                        
+                        
+                        
 
                     </Buttongroup>
 
