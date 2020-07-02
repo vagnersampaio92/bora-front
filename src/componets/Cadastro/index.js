@@ -710,6 +710,10 @@ export default class Historico extends Component {
             //entrega
             const response = await api.post('/categoria', data)
             alert(" Cadastro feito")
+            this.setState({
+                salvacategoria:''
+                
+            })
 
         } catch (err) {
 

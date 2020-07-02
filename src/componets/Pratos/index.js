@@ -153,7 +153,11 @@ export default class Historico extends Component {
                                         <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ name: e.target.value }) }} value={this.state.name} label="Nome" />
                                         <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ description: e.target.value }) }} value={this.state.description} label="Descrição" />
 
-                                        <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ price: e.target.value }) }} value={this.state.price} label="Preço" />
+                                        <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ price: e.target.value }); this.formatarMoeda() }} id="valor" maxlength="4" label="Preço" />
+                                        
+                                        
+                                        
+                                        
                                         <h4 style={{ marginTop:10 }}>Foto do prato</h4>
                                         <Upload onUpload={this.handleUpload} />
                                         {!!uploadedFiles.length && (
@@ -214,12 +218,17 @@ export default class Historico extends Component {
     async salvar() {
 
         const data = {}
+        console.log(this.state.price)
         data.establishment_id = sessionStorage.getItem('restauranteid')
         data.name = this.state.name
         data.description = this.state.description
         data.photo_url = this.state.photo_url
-        data.price = this.state.price
-
+    
+        let teste=this.state.price.split(',')
+        let x=teste[0]+teste[1]
+        console.log(teste[0]+teste[1])
+      data.price =teste[0]+teste[1]
+        console.log(data.price)
         try {
             //entrega
             const response = await api.post('pratos', data)
@@ -239,7 +248,7 @@ export default class Historico extends Component {
             //entrega
             const response = await api.post('deletaprato', data)
             alert("prato excluido")
-
+            this.listar()
         } catch (err) {
 
         }
@@ -263,6 +272,24 @@ export default class Historico extends Component {
 
 
     }
+    formatarMoeda() {
+        
+        var elemento = document.getElementById('valor');
+        var valor = elemento.value;
+        
+        valor = valor + '';
+        valor = parseInt(valor.replace(/[\D]+/g,''));
+        valor = valor + '';
+        valor = valor.replace(/([0-9]{2})$/g, ",$1");
+      
+        // if (valor.length > 6) {
+        //   valor = valor.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
+        // //   valor = valor.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
+        // }
+        
+   
+        elemento.value = valor;
+      }
 
 }
 
