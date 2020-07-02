@@ -225,10 +225,10 @@ export default class Historico extends Component {
         data.photo_url = this.state.photo_url
     
         let teste=this.state.price.split(',')
-        let x=teste[0]+teste[1]
+  
         console.log(teste[0]+teste[1])
-      data.price =teste[0]+teste[1]
-        console.log(data.price)
+          data.price =teste[0]+teste[1]
+  
         try {
             //entrega
             const response = await api.post('pratos', data)

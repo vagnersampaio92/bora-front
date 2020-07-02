@@ -324,8 +324,8 @@ export default class Historico extends Component {
                                           <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ password: e.target.value }) }} value={this.state.password} label="Senha" />
                                           <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ description: e.target.value }) }} value={this.state.description} label="Descrição" />
                                           <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ porcentagem: e.target.value }) }} value={this.state.porcentagem} label="Taxa" />
-                                          <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ min_order_price: e.target.value }) }} value={this.state.min_order_price} label="Menor valor do delivery" />
-                                          <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ delivery_price: e.target.value }) }} value={this.state.delivery_price} label="Valor do delivery" />
+                                          <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ min_order_price: e.target.value });this.formatarMoeda() }} id="valor" label="Menor valor do delivery" />
+                                          <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ delivery_price: e.target.value });this.formatarMoeda2() }}  id="valor2" label="Valor do delivery" />
                                           <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ min_delivery_minutes: e.target.value }) }} value={this.state.min_delivery_minutes} label="Menor tempo" />
                                           <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ max_delivery_minutes: e.target.value }) }} value={this.state.max_delivery_minutes} label="Tempo máximo" />
                                           {/* <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ banner: e.target.value }) }} value={this.state.banner} label="Banner" /> */}
@@ -790,8 +790,13 @@ export default class Historico extends Component {
         data.city_id = 1
         data.description = this.state.description
         data.porcentagem = this.state.porcentagem
-        data.min_order_price = this.state.min_order_price
-        data.delivery_price = this.state.delivery_price
+        let teste=this.state.min_order_price.split(',')
+  
+          data.min_order_price =teste[0]+teste[1]
+          let teste2=this.state.delivery_price.split(',')
+          data.delivery_price =teste2[0]+teste2[1]
+        
+
         data.avaliacao = 1
         data.min_delivery_minutes = this.state.min_delivery_minutes
         data.max_delivery_minutes = this.state.max_delivery_minutes
@@ -830,6 +835,7 @@ export default class Historico extends Component {
                 data4.user = response.data.id
                 data4.categorias = this.state.cadcategoriasid
                 const response4 = await api.post('storeassoc', data4)
+                window.location.reload(); 
             } else {
                 alert("Selecione uma ou mais categorias")
             }
@@ -864,7 +870,42 @@ export default class Historico extends Component {
 
         }
     }
-
+    formatarMoeda() {
+        
+        var elemento = document.getElementById('valor');
+        var valor = elemento.value;
+        
+        valor = valor + '';
+        valor = parseInt(valor.replace(/[\D]+/g,''));
+        valor = valor + '';
+        valor = valor.replace(/([0-9]{2})$/g, ",$1");
+      
+        // if (valor.length > 6) {
+        //   valor = valor.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
+        // //   valor = valor.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
+        // }
+        
+   
+        elemento.value = valor;
+      }
+      formatarMoeda2() {
+        
+        var elemento = document.getElementById('valor2');
+        var valor = elemento.value;
+        
+        valor = valor + '';
+        valor = parseInt(valor.replace(/[\D]+/g,''));
+        valor = valor + '';
+        valor = valor.replace(/([0-9]{2})$/g, ",$1");
+      
+        // if (valor.length > 6) {
+        //   valor = valor.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
+        // //   valor = valor.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
+        // }
+        
+   
+        elemento.value = valor;
+      }
 
 }
 
