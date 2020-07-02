@@ -68,7 +68,7 @@ export default class Historico extends Component {
         console.log(this.state.pedidos)
         var CronJob = require('cron').CronJob;
         var job = new CronJob(
-            '*/10 * * * * *',
+            '*/4 * * * * *',
             () => {
                 this.comparar()
             }
@@ -78,17 +78,17 @@ export default class Historico extends Component {
             true,
             'America/Los_Angeles'
         );
-        var job2 = new CronJob(
-            '*/12 * * * * *',
-            () => {
-                this.comparar2()
-            }
+        // var job2 = new CronJob(
+        //     '*/2 * * * * *',
+        //     () => {
+        //         this.comparar2()
+        //     }
 
-            ,
-            null,
-            true,
-            'America/Los_Angeles'
-        );
+        //     ,
+        //     null,
+        //     true,
+        //     'America/Los_Angeles'
+       //);
 
 
     }
@@ -151,7 +151,7 @@ export default class Historico extends Component {
 
                             <Card>
                                
-                                {this.state.aguardando.map(pedido => (
+                                {this.state.aguardandobk.map(pedido => (
                                     <Card>
                                         {pedido.pratoped.map(pra => (
 
@@ -431,22 +431,31 @@ export default class Historico extends Component {
         );
 
     }
-    comparar() {
+   async comparar() {
         this.testa()
-        const equals1 = this.state.aguardando.length === this.state.aguardandobk.length && this.state.aguardando.every((e, i) => e.id === this.state.aguardandobk[i].id);
-        if (equals1 == false) {
-            this.setState(
+        const equals1 = this.state.aguardando.length === this.state.aguardandobk.length && this.state.aguardandobk.every((e, i) => e.id === this.state.aguardando[i].id) ;
+        if (equals1 == false && this.state.aguardando.length!=0) {
+         await   this.setState(
                 {
                     componente: Som,
                     aguardandobk: this.state.aguardando
                 }
 
             )
+            console.log("toca som")
+            setTimeout(
+               ()=> {
+                    console.log("opaaaaa")
+                    this.comparar2()
+                }
+                ,
+                3000
+            );
         }
 
 
 
-        console.log("foiii")
+        console.log("compara")
     }
     comparar2() {
 
@@ -458,9 +467,7 @@ export default class Historico extends Component {
         )
 
 
-
-
-        console.log("opa")
+        console.log("para som")
     }
     async  testa() {
         const id2 = sessionStorage.getItem('restauranteid')
