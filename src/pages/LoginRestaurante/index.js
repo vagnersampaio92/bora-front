@@ -18,8 +18,8 @@ export default class Login extends Component {
      
         this.state = {
             email:'',
-            Password:' '
-          
+            Password:' ',
+            erro:false
         }
         this.baseState = this.state 
     }
@@ -36,7 +36,11 @@ export default class Login extends Component {
                     <header>
                     <Img src={logo} />
                 </header>
-                <Card2>
+                <Card2> <div style={{ background:"red", borderRadius:"7px" }}>
+                                {this.state.erro == true &&
+                                    <p style={{ fontSize: 10, color: "white" }}>Email ou senha incorretos</p>
+                                }
+                            </div>
                             
                             <TextField  id="standard-basic" onChange={ e => {this.setState({email: e.target.value})} }  label="Email" />
                             <TextField id="standard-basic"  onChange={ e => {this.setState({Password: e.target.value})} }  label="Senha" style={{ marginBottom: 30 }} type="password"/>
@@ -79,6 +83,13 @@ export default class Login extends Component {
             const b = sessionStorage.getItem('tokenres')
              console.log(b)
              this.props.history.push("/restaurante");
+            }else {
+
+                this.setState(
+                    {
+                        erro: true
+                    }
+                )
             }
         } catch (err) {
 
