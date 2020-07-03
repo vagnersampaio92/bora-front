@@ -187,11 +187,16 @@ export default class Historico extends Component {
 
 
                                 if (lcat.data.length > 0) {
-
+                                    
                                     this.setState({
                                         listarestaurante: lcat2.data
                                     });
+                                    for(let x; x<lcat2.length;x++){
+                                        this.state.listarestaurante[x].flag=false
+                                    }
+                                   
                                     console.log(this.state.listarestaurante)
+                           
 
                                 };
 
@@ -285,7 +290,8 @@ export default class Historico extends Component {
 
 
                                 if (lcat.data.length > 0) {
-                                    console.log(lcat.data)
+                                   
+                                    
                                     this.setState({
                                         listarestaurante: lcat.data
                                     });
@@ -300,7 +306,7 @@ export default class Historico extends Component {
 
 
                                 if (lcat.data.length > 0) {
-
+                                   
                                     this.setState({
                                         listarestaurante: lcat.data
                                     });
@@ -418,11 +424,26 @@ export default class Historico extends Component {
                             <div>
                               
                                 {this.state.listarestaurante.map(cat => (
-                                 <div style={{ paddingTop: 10, paddingBottom: 10, borderColor: "#fa8e40", borderTopStyle: "solid", borderTopWidth: 1, textAlign:"left" }}>
                                     
-                                     <p><DeleteIcon style={{ marginRight: 15, fontSize: 20 }} onClick={() => { this.deleterestaurante(cat.id) }} /> {cat.name}</p>
-                                  
-                                        
+                                 <div style={{ paddingTop: 10, paddingBottom: 10, borderColor: "#fa8e40", borderTopStyle: "solid", borderTopWidth: 1, textAlign:"left" }}>
+                                     <div> <Img src={cat.logo}></Img></div>
+                                     <div><Img src={cat.banner} ></Img></div>
+                                     <div><b>Nome:</b> {cat.name}</div>
+                                     <div><b>Email:</b> {cat.email}</div>
+                                     <div><b>Descrição:</b> {cat.description}</div>
+                                     <div><b>Nota:</b> {cat.rating}</div>
+                                     <div><b>Menor valor do delivery:</b> R${cat.min_order_price}</div>
+                                     <div><b>Valor do delivery:</b> R${cat.delivery_price}</div>
+                                     <div><b>Menor tempo do delivery:</b> {cat.min_delivery_minutes}</div>
+                                     <div><b>Maior tempo do delivery:</b> {cat.max_delivery_minutes}</div>
+                                     <div><b>Telefone:</b> {cat.phone}</div>
+                                     <div><b>Telefone:</b> {cat.phone}</div>
+                                     <div><b>Taxa do Bora:</b> {cat.porcentagem}%</div>
+                                    
+                                     
+                                    <div><Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.deleterestaurante(cat.id) }}>Apagar</Button></div>
+      
+                                    
                                  </div>
 
 
