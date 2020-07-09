@@ -811,11 +811,22 @@ export default class Historico extends Component {
         data.city_id = 1
         data.description = this.state.description
         data.porcentagem = this.state.porcentagem
+        
         let teste=this.state.min_order_price.split(',')
-  
-          data.min_order_price =teste[0]+teste[1]
+        if(teste.length>1){
+            data.min_order_price =teste[0]+teste[1]
+        }else{
+            data.min_order_price =data.min_order_price =teste[0]*100
+        }
+          
+
           let teste2=this.state.delivery_price.split(',')
-          data.delivery_price =teste2[0]+teste2[1]
+
+          if(teste2.length>1){
+            data.delivery_price =teste2[0]+teste2[1]
+        }else{
+            data.delivery_price =data.min_order_price =teste2[0]*100
+        }
         
 
         data.avaliacao = 1
