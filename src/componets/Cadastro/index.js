@@ -432,8 +432,8 @@ export default class Historico extends Component {
                                      <div><b>Email:</b> {cat.email}</div>
                                      <div><b>Descrição:</b> {cat.description}</div>
                                      <div><b>Nota:</b> {cat.rating}</div>
-                                     <div><b>Menor valor do delivery:</b> R${cat.min_order_price}</div>
-                                     <div><b>Valor do delivery:</b> R${cat.delivery_price}</div>
+                                     <div><b>Menor valor do delivery:</b> R${cat.min_order_price/100}</div>
+                                     <div><b>Valor do delivery:</b> R${cat.delivery_price/100}</div>
                                      <div><b>Menor tempo do delivery:</b> {cat.min_delivery_minutes}</div>
                                      <div><b>Maior tempo do delivery:</b> {cat.max_delivery_minutes}</div>
                                      <div><b>Telefone:</b> {cat.phone}</div>
