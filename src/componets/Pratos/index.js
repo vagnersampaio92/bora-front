@@ -187,7 +187,7 @@ export default class Historico extends Component {
 
 
                                     <Img src={prato.photo_url} ></Img>
-                                    <div >
+                                    <div style={{ marginLeft: 10 }}>
                                         <p>Nome:{prato.name}</p>
                                         {this.state.arr[index] == true &&
                                             <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ editname: e.target.value }) }} value={this.state.editname} label="Nome" />
@@ -205,7 +205,8 @@ export default class Historico extends Component {
 
                                         }
                                         {this.state.arr[index] == true &&
-                                            <div>
+                                            <div style={{ marginTop: 20}}>
+                                                <p>Nova foto do prato</p>
                                                 <Upload onUpload={this.handleUpload} />
                                                 {!!uploadedFiles.length && (
                                                     <FileList files={uploadedFiles} onDelete={this.handleDelete} />
@@ -214,23 +215,26 @@ export default class Historico extends Component {
 
                                         }
                                         {this.state.arr[index] == true &&
-                                            <Button variant="outlined" style={{ marginTop: 20, marginBottom: 25, borderColor: "#fa8e40" }} onClick={() => { this.editardados(prato.id, prato.price) }} style={{ marginTop: 15, }}>Salvar edição</Button>
+                                            <Button variant="outlined" style={{ marginTop: 20, color: '#00FF00', borderColor: '#00FF00' }} onClick={() => { this.editardados(prato.id, prato.price) }} >Salvar edição</Button>
 
                                         }
-                                        
-                                        <Button variant="outlined" style={{ marginTop: 20, marginBottom: 25, borderColor: "#fa8e40" }} onClick={() => {
-                                            this.setState(prev => ({
-                                                arr: prev.arr.map((val, i) => !val && i == index ? true : val)
-                                            })); console.log(this.state.arr[index])
-                                            this.setState({
-                                                editname: prato.name,
-                                                editdescription: prato.description,
-                                                editphoto_url: prato.photo_url,
-                                                editprice: prato.price,
-                                            })
-                                        }} style={{ marginTop: 15, }}>Editar</Button>
+                                        <div style={{ display: 'flex' }}>
+                                            <Button variant="outlined" style={{ marginTop: 15, marginBottom: 25, color: '#0000FF', borderColor: '#0000FF' }} onClick={() => {
+                                                this.setState(prev => ({
+                                                    arr: prev.arr.map((val, i) => !val && i == index ? true : val)
+                                                })); console.log(this.state.arr[index])
+                                                this.setState({
+                                                    editname: prato.name,
+                                                    editdescription: prato.description,
+                                                    editphoto_url: prato.photo_url,
+                                                    editprice: prato.price,
+                                                })
+                                            }} >Editar</Button>
 
-                                        <Button variant="outlined" style={{ marginTop: 20, marginBottom: 25, borderColor: "#fa8e40" }} onClick={() => { this.delete(prato.id) }} style={{ marginTop: 15, }}>Apagar</Button>
+                                            <Button variant="outlined" style={{ marginTop: 15, marginBottom: 25, marginLeft:10, color: '#FF0000', borderColor: '#FF0000' }} onClick={() => { this.delete(prato.id) }} >Apagar</Button>
+
+                                        </div>
+
                                     </div>
 
 

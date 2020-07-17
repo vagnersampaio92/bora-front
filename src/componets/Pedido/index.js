@@ -11,6 +11,7 @@ import Input from '@material-ui/core/Input';
 import Som from '../../componets/Som/index'
 import Stop from '../../componets/Som/off'
 import Sound from 'react-sound';
+import { red } from '@material-ui/core/colors';
 
 
 
@@ -29,14 +30,14 @@ export default class Historico extends Component {
             finalizado: [],
             equals: '',
             min: '',
-            flag:0,
+            flag: 0,
             max: '',
             status: '',
             opcao: ''
 
         };
     }
-    
+
 
     async componentWillMount() {
 
@@ -88,7 +89,7 @@ export default class Historico extends Component {
         //     null,
         //     true,
         //     'America/Los_Angeles'
-       //);
+        //);
 
 
     }
@@ -99,49 +100,48 @@ export default class Historico extends Component {
             <div>
 
                 <Container>
-                <this.state.componente />
+                    <this.state.componente />
                     <Buttongroup >
                         <h1>Pedidos</h1>
                     </Buttongroup>
 
                     <Buttongroup >
-                        {this.state.flag==0&&
-                        <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40", background:"#fa8e40" }} onClick={() => { this.aguardando(); this.setState({flag:0}) }}> Aguardando </Button>
+                        {this.state.flag == 0 &&
+                            <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40", background: "#fa8e40" }} onClick={() => { this.aguardando(); this.setState({ flag: 0 }) }}> Pedidos novos</Button>
                         }
-                         {this.state.flag!=0&&
-                         <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.aguardando(); this.setState({flag:0}) }}> Aguardando </Button>
+                        {this.state.flag != 0 &&
+                            <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.aguardando(); this.setState({ flag: 0 }) }}> Pedidos novos</Button>
                         }
-                        {this.state.flag==1&&
-                        <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40", background:"#fa8e40" }} onClick={() => { this.aceito(); this.setState({flag:1}) }}>Aceito </Button>
+                        {this.state.flag == 1 &&
+                            <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40", background: "#fa8e40" }} onClick={() => { this.aceito(); this.setState({ flag: 1 }) }}>Aceito </Button>
                         }
-                         {this.state.flag!=1&&
-                         <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.aceito(); this.setState({flag:1}) }}>Aceito </Button>
+                        {this.state.flag != 1 &&
+                            <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.aceito(); this.setState({ flag: 1 }) }}>Aceito </Button>
                         }
-                         {this.state.flag==2&&
-                         <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40", background:"#fa8e40" }} onClick={() => { this.preparando(); this.setState({flag:2}) }}> Preparando </Button>
+                        {this.state.flag == 3 &&
+                            <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40", background: "#fa8e40" }} onClick={() => { this.acaminho(); this.setState({ flag: 3 }) }}>A caminho </Button>
                         }
-                         {this.state.flag!=2&&
-                         <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.preparando(); this.setState({flag:2}) }}> Preparando </Button>
+                        {this.state.flag != 3 &&
+                            <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.acaminho(); this.setState({ flag: 3 }) }}>A caminho </Button>
                         }
-                         {this.state.flag==3&&
-                         <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40", background:"#fa8e40" }} onClick={() => { this.acaminho(); this.setState({flag:3}) }}>A caminho </Button>
+                        {this.state.flag == 4 &&
+                            <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40", background: "#fa8e40" }} onClick={() => { this.finalizado(); this.setState({ flag: 4 }) }}> Finalizado </Button>
                         }
-                         {this.state.flag!=3&&
-                         <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.acaminho(); this.setState({flag:3}) }}>A caminho </Button>
+                        {this.state.flag != 4 &&
+                            <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.finalizado(); this.setState({ flag: 4 }) }}> Finalizado </Button>
                         }
-                         {this.state.flag==4&&
-                         <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40", background:"#fa8e40" }} onClick={() => { this.finalizado(); this.setState({flag:4}) }}> Finalizado </Button>
+                        {this.state.flag == 2 &&
+                            <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40", background: "#fa8e40" }} onClick={() => { this.preparando(); this.setState({ flag: 2 }) }}> Cancelado </Button>
                         }
-                         {this.state.flag!=4&&
-                         <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.finalizado(); this.setState({flag:4}) }}> Finalizado </Button>
+                        {this.state.flag != 2 &&
+                            <Button variant="outlined" style={{ marginTop: 20, marginBottom: 20, marginRight: 15, borderColor: "#fa8e40" }} onClick={() => { this.preparando(); this.setState({ flag: 2 }) }}> Cancelado </Button>
                         }
 
 
-                        
-                        
-                        
-                        
-                        
+
+
+
+
 
                     </Buttongroup>
 
@@ -150,9 +150,10 @@ export default class Historico extends Component {
                         {this.state.opcao == 1 &&
 
                             <Card>
-                               
+
                                 {this.state.aguardandobk.map(pedido => (
                                     <Card>
+                                        <p>ID:{pedido.id}</p>
                                         {pedido.pratoped.map(pra => (
 
 
@@ -174,9 +175,9 @@ export default class Historico extends Component {
                                         <FormControl style={{ marginRight: 10, minWidth: 130 }}>
                                             <InputLabel htmlFor="grouped-select">Status</InputLabel>
                                             <Select onChange={e => { pedido.status = e.target.value }} defaultValue={pedido.status} input={<Input id="grouped-select" />}>
-                                                <MenuItem value="Aguardando"> Aguardando</MenuItem>
+                                                <MenuItem value="Aguardando"> Pedido novo</MenuItem>
                                                 <MenuItem value="Aceito">Aceito</MenuItem>
-                                                <MenuItem value="preparando">Preparando</MenuItem>
+                                                {/* <MenuItem value="preparando">Preparando</MenuItem> */}
                                                 <MenuItem value="acaminho">A caminho</MenuItem>
                                                 <MenuItem value="Finalizado">Finalizado</MenuItem>
 
@@ -185,10 +186,12 @@ export default class Historico extends Component {
                                             </Select>
                                         </FormControl>
                                         <p>Preço:R${pedido.price / 100}</p>
+                                        <div>
+                                            <Button variant="outlined" style={{ marginBottom: 15, marginTop: 15, color: 'red', borderColor: 'red' }} onClick={() => { pedido.status = "Cancelado"; this.salva(pedido.id, pedido) }}>Cancelar pedido</Button>
+                                            <Button variant="outlined" color="primary" style={{ marginBottom: 15, marginTop: 15, marginLeft: 10 }} onClick={() => { this.salva(pedido.id, pedido) }}>Salvar status</Button>
+                                        </div>
 
 
-
-                                        <Button variant="outlined" color="primary" style={{ marginBottom: 15, marginTop: 15 }} onClick={() => { this.salva(pedido.id, pedido) }}>Salvar</Button>
                                     </Card>
                                 ))
                                 }
@@ -202,8 +205,10 @@ export default class Historico extends Component {
                         {this.state.opcao == 2 &&
 
                             <Card>
+
                                 {this.state.aceito.map(pedido => (
                                     <Card>
+                                        <p>ID:{pedido.id}</p>
                                         {pedido.pratoped.map(pra => (
 
 
@@ -225,9 +230,9 @@ export default class Historico extends Component {
                                         <FormControl style={{ marginRight: 10, minWidth: 130 }}>
                                             <InputLabel htmlFor="grouped-select">Status</InputLabel>
                                             <Select onChange={e => { pedido.status = e.target.value }} defaultValue={pedido.status} input={<Input id="grouped-select" />}>
-                                                <MenuItem value="Aguardando"> Aguardando</MenuItem>
+                                                <MenuItem value="Aguardando"> Pedido novo</MenuItem>
                                                 <MenuItem value="Aceito">Aceito</MenuItem>
-                                                <MenuItem value="preparando">Preparando</MenuItem>
+                                                {/* <MenuItem value="preparando">Preparando</MenuItem> */}
                                                 <MenuItem value="acaminho">A caminho</MenuItem>
                                                 <MenuItem value="Finalizado">Finalizado</MenuItem>
 
@@ -251,8 +256,10 @@ export default class Historico extends Component {
                         {this.state.opcao == 3 &&
 
                             <Card>
+
                                 {this.state.preparando.map(pedido => (
                                     <Card>
+                                        <p>ID:{pedido.id}</p>
                                         {pedido.pratoped.map(pra => (
 
 
@@ -274,11 +281,11 @@ export default class Historico extends Component {
                                         <FormControl style={{ marginRight: 10, minWidth: 130 }}>
                                             <InputLabel htmlFor="grouped-select">Status</InputLabel>
                                             <Select onChange={e => { pedido.status = e.target.value }} defaultValue={pedido.status} input={<Input id="grouped-select" />}>
-                                                <MenuItem value="Aguardando"> Aguardando</MenuItem>
+                                                <MenuItem value="Aguardando">Pedido novo</MenuItem>
                                                 <MenuItem value="Aceito">Aceito</MenuItem>
-                                                <MenuItem value="preparando">Preparando</MenuItem>
                                                 <MenuItem value="acaminho">A caminho</MenuItem>
                                                 <MenuItem value="Finalizado">Finalizado</MenuItem>
+                                                <MenuItem value="Cancelado">Cancelado</MenuItem>
 
 
 
@@ -300,8 +307,10 @@ export default class Historico extends Component {
                         {this.state.opcao == 4 &&
 
                             <Card>
+
                                 {this.state.acaminho.map(pedido => (
                                     <Card>
+                                        <p>ID:{pedido.id}</p>
                                         {pedido.pratoped.map(pra => (
 
 
@@ -323,9 +332,9 @@ export default class Historico extends Component {
                                         <FormControl style={{ marginRight: 10, minWidth: 130 }}>
                                             <InputLabel htmlFor="grouped-select">Status</InputLabel>
                                             <Select onChange={e => { pedido.status = e.target.value }} defaultValue={pedido.status} input={<Input id="grouped-select" />}>
-                                                <MenuItem value="Aguardando"> Aguardando</MenuItem>
+                                                <MenuItem value="Aguardando">Pedido novo</MenuItem>
                                                 <MenuItem value="Aceito">Aceito</MenuItem>
-                                                <MenuItem value="preparando">Preparando</MenuItem>
+                                                {/* <MenuItem value="preparando">Preparando</MenuItem> */}
                                                 <MenuItem value="acaminho">A caminho</MenuItem>
                                                 <MenuItem value="Finalizado">Finalizado</MenuItem>
 
@@ -350,8 +359,10 @@ export default class Historico extends Component {
                         {this.state.opcao == 5 &&
 
                             <Card>
+
                                 {this.state.finalizado.map(pedido => (
                                     <Card>
+                                        <p>ID:{pedido.id}</p>
                                         {pedido.pratoped.map(pra => (
 
 
@@ -373,9 +384,9 @@ export default class Historico extends Component {
                                         <FormControl style={{ marginRight: 10, minWidth: 130 }}>
                                             <InputLabel htmlFor="grouped-select">Status</InputLabel>
                                             <Select onChange={e => { pedido.status = e.target.value }} defaultValue={pedido.status} input={<Input id="grouped-select" />}>
-                                                <MenuItem value="Aguardando"> Aguardando</MenuItem>
+                                                <MenuItem value="Aguardando"> Pedido novo</MenuItem>
                                                 <MenuItem value="Aceito">Aceito</MenuItem>
-                                                <MenuItem value="preparando">Preparando</MenuItem>
+                                                {/* <MenuItem value="preparando">Preparando</MenuItem> */}
                                                 <MenuItem value="acaminho">A caminho</MenuItem>
                                                 <MenuItem value="Finalizado">Finalizado</MenuItem>
 
@@ -431,11 +442,12 @@ export default class Historico extends Component {
         );
 
     }
-   async comparar() {
+
+    async comparar() {
         this.testa()
-        const equals1 = this.state.aguardando.length === this.state.aguardandobk.length && this.state.aguardandobk.every((e, i) => e.id === this.state.aguardando[i].id) ;
-        if (equals1 == false && this.state.aguardando.length!=0) {
-         await   this.setState(
+        const equals1 = this.state.aguardando.length === this.state.aguardandobk.length && this.state.aguardandobk.every((e, i) => e.id === this.state.aguardando[i].id);
+        if (equals1 == false && this.state.aguardando.length != 0) {
+            await this.setState(
                 {
                     componente: Som,
                     aguardandobk: this.state.aguardando
@@ -444,7 +456,7 @@ export default class Historico extends Component {
             )
             console.log("toca som")
             setTimeout(
-               ()=> {
+                () => {
                     console.log("opaaaaa")
                     this.comparar2()
                 }
