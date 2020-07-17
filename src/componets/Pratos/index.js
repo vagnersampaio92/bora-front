@@ -22,24 +22,29 @@ export default class Historico extends Component {
             description: '',
             photo_url: '',
             price: '',
-            pratos: []
+            editname: '',
+            editdescription: '',
+            editphoto_url: '',
+            editprice: '',
+            pratos: [],
+            arr: []
 
 
         };
     }
     async componentDidMount() {
         const response = await api.get("posts");
-     
+
 
         this.setState({
             uploadedFiles: response.data.map(file => ({
-               
+
                 preview: file.url,
                 uploaded: true,
                 url: file.url
             }))
         });
-       
+
     }
 
     handleUpload = files => {
@@ -88,10 +93,10 @@ export default class Historico extends Component {
                 }
             })
             .then(response => {
-               
+
                 this.setState(
                     {
-                        photo_url:response.data
+                        photo_url: response.data
                     }
                 )
                 this.updateFile(uploadedFile.id, {
@@ -154,11 +159,11 @@ export default class Historico extends Component {
                                         <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ description: e.target.value }) }} value={this.state.description} label="Descrição" />
 
                                         <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ price: e.target.value }); this.formatarMoeda() }} id="valor" maxlength="4" label="Preço" />
-                                        
-                                        
-                                        
-                                        
-                                        <h4 style={{ marginTop:10 }}>Foto do prato</h4>
+
+
+
+
+                                        <h4 style={{ marginTop: 10 }}>Foto do prato</h4>
                                         <Upload onUpload={this.handleUpload} />
                                         {!!uploadedFiles.length && (
                                             <FileList files={uploadedFiles} onDelete={this.handleDelete} />
@@ -177,16 +182,53 @@ export default class Historico extends Component {
 
                         <Card>
 
-                            {this.state.pratos.map(prato => (
+                            {this.state.pratos.map((prato, index) => (
                                 <Card style={{ marginBottom: 30, borderColor: "transparent" }}>
 
 
                                     <Img src={prato.photo_url} ></Img>
                                     <div >
                                         <p>Nome:{prato.name}</p>
-                                        <p>Descrição:{prato.description}</p>
-                                        <p>Preço:R${prato.price / 100}</p>
+                                        {this.state.arr[index] == true &&
+                                            <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ editname: e.target.value }) }} value={this.state.editname} label="Nome" />
 
+                                        }
+
+                                        <p>Descrição:{prato.description}</p>
+                                        {this.state.arr[index] == true &&
+                                            <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ editdescription: e.target.value }) }} value={this.state.editdescription} label="Descrição" />
+
+                                        }
+                                        <p>Preço:R${prato.price / 100}</p>
+                                        {this.state.arr[index] == true &&
+                                            <TextField id="standard-basic" style={{ marginRight: 10, minWidth: 130 }} onChange={e => { this.setState({ editprice: e.target.value }); this.formatarMoeda() }} id="valor" maxlength="4" label="Preço" />
+
+                                        }
+                                        {this.state.arr[index] == true &&
+                                            <div>
+                                                <Upload onUpload={this.handleUpload} />
+                                                {!!uploadedFiles.length && (
+                                                    <FileList files={uploadedFiles} onDelete={this.handleDelete} />
+                                                )}
+                                            </div>
+
+                                        }
+                                        {this.state.arr[index] == true &&
+                                            <Button variant="outlined" style={{ marginTop: 20, marginBottom: 25, borderColor: "#fa8e40" }} onClick={() => { this.editardados(prato.id, prato.price) }} style={{ marginTop: 15, }}>Salvar edição</Button>
+
+                                        }
+                                        
+                                        <Button variant="outlined" style={{ marginTop: 20, marginBottom: 25, borderColor: "#fa8e40" }} onClick={() => {
+                                            this.setState(prev => ({
+                                                arr: prev.arr.map((val, i) => !val && i == index ? true : val)
+                                            })); console.log(this.state.arr[index])
+                                            this.setState({
+                                                editname: prato.name,
+                                                editdescription: prato.description,
+                                                editphoto_url: prato.photo_url,
+                                                editprice: prato.price,
+                                            })
+                                        }} style={{ marginTop: 15, }}>Editar</Button>
 
                                         <Button variant="outlined" style={{ marginTop: 20, marginBottom: 25, borderColor: "#fa8e40" }} onClick={() => { this.delete(prato.id) }} style={{ marginTop: 15, }}>Apagar</Button>
                                     </div>
@@ -202,18 +244,44 @@ export default class Historico extends Component {
 
                 </Container>
 
-
-
             </div>
-
-
-
-
-
-
 
         );
 
+    }
+
+    async editardados(id, valor) {
+        let data = {}
+        data.id = id
+        data.name = this.state.editname
+        data.description = this.state.editdescription
+        data.photo_url = this.state.photo_url
+
+        console.log(this.state.editprice)
+        let t = this.state.editprice
+        if (t != valor) {
+            let teste = this.state.editprice.split(',')
+            if (teste.length > 1) {
+                data.price = teste[0] + teste[1]
+            } else {
+                data.price = teste[0] * 100
+
+            }
+        } else {
+            data.price = this.state.editprice
+        }
+
+        try {
+            //entrega
+            const response = await api.post('editaprato', data)
+            alert("Edição feito")
+            this.listar()
+
+        } catch (err) {
+
+        }
+
+        console.log(data)
     }
     async salvar() {
 
@@ -223,17 +291,17 @@ export default class Historico extends Component {
         data.name = this.state.name
         data.description = this.state.description
         data.photo_url = this.state.photo_url
-    
-        let teste=this.state.price.split(',')
-          
-  
-          if(teste.length>1){
-            data.price =teste[0]+teste[1]
-        }else{
-            data.price =teste[0]*100
-           
+
+        let teste = this.state.price.split(',')
+
+
+        if (teste.length > 1) {
+            data.price = teste[0] + teste[1]
+        } else {
+            data.price = teste[0] * 100
+
         }
-          
+
 
         try {
             //entrega
@@ -248,7 +316,7 @@ export default class Historico extends Component {
     async delete(id) {
 
         const data = {}
-        data.id=id
+        data.id = id
 
         try {
             //entrega
@@ -265,12 +333,17 @@ export default class Historico extends Component {
 
         try {
             //entrega
-            const response = await api.get('establishment/produtos/' + id)
+            let response = await api.get('establishment/produtos/' + id)
 
             this.setState({
                 pratos: response.data
             })
+            for (let x = 0; x < this.state.pratos.length; x++) {
+                this.state.arr[x] = false
+
+            }
             console.log(this.state.pratos)
+            console.log(this.state.arr)
 
         } catch (err) {
 
@@ -279,23 +352,23 @@ export default class Historico extends Component {
 
     }
     formatarMoeda() {
-        
+
         var elemento = document.getElementById('valor');
         var valor = elemento.value;
-        
+
         valor = valor + '';
-        valor = parseInt(valor.replace(/[\D]+/g,''));
+        valor = parseInt(valor.replace(/[\D]+/g, ''));
         valor = valor + '';
         valor = valor.replace(/([0-9]{2})$/g, ",$1");
-      
+
         // if (valor.length > 6) {
         //   valor = valor.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
         // //   valor = valor.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
         // }
-        
-   
+
+
         elemento.value = valor;
-      }
+    }
 
 }
 
